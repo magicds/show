@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>纯css3实现菜单</title>
+    <style media="screen">
+        html,
+        body {
+            overflow: hidden;
+        }
+
+        .container:after {
+            clear: both;
+            content: '';
+            display: table;
+        }
+
+        .left,
+        .right {
+            width: 48%;
+            overflow: auto;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .sub-menu {
+            display: none;
+        }
+
+         :target {
+            display: block;
+        }
+        /* 设置高度 */
+
+        .input_menu>li {
+            position: relative;
+            line-height: 32px;
+        }
+        /* 设置checkbox 占满父菜单项目，并不可见 */
+
+        .input_menu input {
+            position: absolute;
+            width: 100%;
+            height: 32px;
+            z-index: 5;
+            opacity: 0;
+            margin: 0;
+        }
+        /* 子菜单默认隐藏 */
+
+        .sub_menu {
+            display: none;
+        }
+        /* checkbox选中时 子菜单显示 */
+
+        .input_menu input:checked~.sub_menu {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>纯css3实现菜单</h1>
+
+    <div class="container">
+        <div class="left">
+            <h2>1、:target 实现菜单展开</h2>
+            <hr>
+            <ul id="menu">
+                <li>
+                    <a href="#sub-menu1">父菜单1</a>
+                    <ul class="sub-menu" id="sub-menu1">
+                        <li>子菜单1-1</li>
+                        <li>子菜单1-2</li>
+                        <li>子菜单1-3</li>
+                        <li>子菜单1-4</li>
+                        <li>子菜单1-5</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#sub-menu2">父菜单2</a>
+                    <ul class="sub-menu" id="sub-menu2">
+                        <li>子菜单2-1</li>
+                        <li>子菜单2-2</li>
+                        <li>子菜单2-3</li>
+                        <li>子菜单2-4</li>
+                        <li>子菜单2-5</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#sub-menu3">父菜单3</a>
+                    <ul class="sub-menu" id="sub-menu3">
+                        <li>子菜单3-1</li>
+                        <li>子菜单3-2</li>
+                        <li>子菜单3-3</li>
+                        <li>子菜单3-4</li>
+                        <li>子菜单3-5</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#sub-menu4">父菜单4</a>
+                    <ul class="sub-menu" id="sub-menu4">
+                        <li>子菜单4-1</li>
+                        <li>子菜单4-2</li>
+                        <li>子菜单4-3</li>
+                        <li>子菜单4-4</li>
+                        <li>子菜单4-5</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#sub-menu5">父菜单5</a>
+                    <ul class="sub-menu" id="sub-menu5">
+                        <li>子菜单5-1</li>
+                        <li>子菜单5-2</li>
+                        <li>子菜单5-3</li>
+                        <li>子菜单5-4</li>
+                        <li>子菜单5-5</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>实现参考：<a href="http://www.imooc.com/code/736" target="_blank">CSS3 结构性伪类选择器—target</a></p>
+            <p>关键代码:</p>
+            <pre>
+            .sub-menu {
+                display: none;
+            }
+            :target {
+                display: block;
+            }
+            </pre>
+        </div>
+        <div class="right">
+            <h2>2、 input 实现菜单</h2>
+            <hr>
+            <ul class="input_menu">
+                <li>
+                    <input type="checkbox">
+                    <a href="#">父菜单 1</a>
+                    <ul class="sub_menu">
+                        <li><a href="#">子菜单1-1</a></li>
+                        <li><a href="#">子菜单1-2</a></li>
+                        <li><a href="#">子菜单1-3</a></li>
+                        <li><a href="#">子菜单1-4</a></li>
+                        <li><a href="#">子菜单1-5</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <a href="#">父菜单 2</a>
+                    <ul class="sub_menu">
+                        <li><a href="#">子菜单2-1</a></li>
+                        <li><a href="#">子菜单2-2</a></li>
+                        <li><a href="#">子菜单2-3</a></li>
+                        <li><a href="#">子菜单2-4</a></li>
+                        <li><a href="#">子菜单2-5</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <a href="#">父菜单 3</a>
+                    <ul class="sub_menu">
+                        <li><a href="#">子菜单3-1</a></li>
+                        <li><a href="#">子菜单3-2</a></li>
+                        <li><a href="#">子菜单3-3</a></li>
+                        <li><a href="#">子菜单3-4</a></li>
+                        <li><a href="#">子菜单3-5</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <a href="#">父菜单 4</a>
+                    <ul class="sub_menu">
+                        <li><a href="#">子菜单4-1</a></li>
+                        <li><a href="#">子菜单4-2</a></li>
+                        <li><a href="#">子菜单4-3</a></li>
+                        <li><a href="#">子菜单4-4</a></li>
+                        <li><a href="#">子菜单4-5</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox">
+                    <a href="#">父菜单 5</a>
+                    <ul class="sub_menu">
+                        <li><a href="#">子菜单5-1</a></li>
+                        <li><a href="#">子菜单5-2</a></li>
+                        <li><a href="#">子菜单5-3</a></li>
+                        <li><a href="#">子菜单5-4</a></li>
+                        <li><a href="#">子菜单5-5</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <p>实现参考：<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDk5MzE2Mw%3D%3D&mid=2527293900&idx=1&sn=911c1111d4c3dd588ac388854265b946&mpshare=1&scene=1&srcid=11110a62QEqLreuWPco22bQg" target="_blank">教你用css3写导航目录</a></p>
+            <p>关键代码:</p>
+            <pre>
+            /* 设置高度 */
+            .input_menu > li {
+                line-height: 32px;
+            }
+            /* 设置checkbox 占满父菜单项目，并不可见 */
+            .input_menu input {
+                position: absolute;
+                width:100%;
+                height: 32px;
+                z-index: 5;
+                opacity: 0;
+            }
+            /* 子菜单默认隐藏 */
+            .sub_menu {
+                display: none;
+            }
+            /* checkbox选中时 子菜单显示 */
+            .input_menu input:checked ~.sub_menu {
+                display: block;
+            }
+            </pre>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
