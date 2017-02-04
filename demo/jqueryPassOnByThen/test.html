@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+	<h1>请打开控制台，并刷新页面查看演示。</h1>
+    <div>
+        <img src="test.jpg" alt="">
+    </div>
+    <script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+    <script>
+    $.ajax({
+        url: 'person.js',
+        dataType: 'script'
+    }).then(function() {
+        console.log(Person); // person.js已经加载成功
+        console.log('person.js已经加载成功'); 
+        return $.ajax({
+            url: 'person.prototype.js',
+            dataType: 'script'
+        });
+    }).then(function(data) {
+    	// 这里的data 上一步请求文件的内容 是person.prototype.js而非person.js
+    	console.log(data);
+        console.log(Person.prototype.showName);
+        console.log('person.prototype.js已经加载成功');
+        // person.prototype.js 已经加载
+        return $.when($.ajax({
+            url: 'zs.js',
+            dataType: 'script'
+        }), $.ajax({
+            url: 'ls.js',
+            dataType: 'script'
+        }));
+    }).then(function(){
+    	// zs.js 和 ls.js 都加载完成
+    	console.log(zs,ls);
+        console.log('zs.js和zs.js已经加载成功');    	
+    	return $.ajax({
+            url: 'introduce.js',
+            dataType: 'script'
+        });
+    },function(){
+    	console.log('zs.js or ls.js failed');
+    }).then(function(){
+    	// 到此前面的所有资源都是加载成功的
+        console.log('introduce.js已经加载成功，且其依赖资源都加载成功了，可以使用了');    	
+    	introduceEachOther();
+    });
+    </script>
+</body>
+
+</html>

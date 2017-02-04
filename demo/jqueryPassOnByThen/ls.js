@@ -1,0 +1,1 @@
+var ls = new Person('李四');
