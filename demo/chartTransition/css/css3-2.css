@@ -1,0 +1,101 @@
+.page-cover {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,0.1);
+}
+/* css3 实现 */
+/*.main {
+    position: relative;
+    width:900px;
+    height: 100%;
+    margin: 0 auto;
+}*/
+.histogram,
+.heibeimap {
+    position: absolute;    
+}
+
+#histogram1 {
+    top:0;
+    left:10%;
+}
+#histogram2 {
+    top:0;
+    left:50%;
+}
+#histogram3 {
+    top:50%;
+    left:10%;
+}
+#heibeimap {
+    top:50%;
+    left:50%;
+}
+
+.container-move {
+    position: absolute;
+    z-index:1000;
+    animation: container-move 3s;    
+    -moz-animation: container-move 3s;
+    /* Firefox */
+    -webkit-animation: container-move 3s;
+    /* Safari 和 Chrome */
+    -o-animation: container-move 3s;
+    /* Opera */
+}
+
+
+/* 移动动画 */
+
+@keyframes container-move {
+    from {        
+        transform:scale(1,1);
+        transform-origin:left top;
+    }
+    to {        
+        transform:scale(1.5,1.5);
+        top: 30%;
+        left: 110%;
+    }
+}
+
+
+@-moz-keyframes container-move {
+    from {        
+        transform:scale(1,1);
+        transform-origin:left top;
+    }
+    to {        
+        transform:scale(1.5,1.5);
+        top: 30%;
+        left: 110%;
+    }
+}
+
+@-webkit-keyframes container-move {
+    from {        
+        transform:scale(1,1);
+        transform-origin:left top;
+    }
+    to {        
+        transform:scale(1.5,1.5);
+        top: 30%;
+        left: 110%;
+    }
+}
+
+@-o-keyframes container-move {
+    from {        
+        transform:scale(1,1);
+        transform-origin:left top;
+    }
+    to {        
+        transform:scale(1.5,1.5);
+        top: 30%;
+        left: 110%;
+    }
+}
+

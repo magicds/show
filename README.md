@@ -14,4 +14,4 @@
 
 - [炫酷的折扇展开 + 鼠标滑动气泡特效](https://cdswyda.github.io/show/demo/foldingFan/)
 
-- 
+- [一个图表过渡动画，用于双屏展示](https://cdswyda.github.io/show/demo/chartTransition/)

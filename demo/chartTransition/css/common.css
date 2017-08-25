@@ -1,0 +1,271 @@
+/* yui3 reset.css */
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+fieldset,
+img {
+    border: 0
+}
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+    font-style: normal;
+    font-weight: normal
+}
+ol,
+ul {
+    list-style: none
+}
+a {
+	text-decoration:none;
+}
+caption,
+th {
+    text-align: left
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+    font-weight: normal
+}
+q:before,
+q:after {
+    content: ''
+}
+abbr,
+acronym {
+    border: 0;
+    font-variant: normal
+}
+sup {
+    vertical-align: text-top
+}
+sub {
+    vertical-align: text-bottom
+}
+input,
+textarea,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    *font-size: 100%
+}
+legend {
+    color: #000
+}
+iframe {
+    display: block;
+}
+
+/* yui3 fonts */
+body {
+  font-size:12px;
+  font-family:"宋体";
+  color:#333;
+}
+select,
+input,
+button,
+textarea {
+    font: 99% arial, helvetica, clean, sans-serif
+}
+table {
+    font-size: inherit;
+    font: 100%
+}
+pre,
+code,
+kbd,
+samp,
+tt {
+    font-family: monospace;
+    *font-size: 108%;
+    line-height: 100%
+}
+
+/* utilities */
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.clearfix {
+    *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+.clearfix:after {
+    clear: both;
+}
+.l {
+    float: left !important;
+}
+.r {
+    float: right !important;
+}
+.hidden {
+    display: none !important;
+}
+.invisible {
+    visibility: hidden !important;
+}
+.mr10 {
+	margin-right: 10px;
+}
+.mt10 {
+	margin-top: 10px;
+}
+/*! grid system 24栅格 998px */
+.container {
+	width:998px;
+	margin:0 auto;
+}
+.row {
+	overflow:hidden;
+}
+.span24 {
+	width: 998px;
+	float:left;
+}
+.span23 {
+	width: 956px;
+	float:left;
+}
+.span22 {
+	width: 914px;
+	float:left;
+}
+.span21 {
+	width: 872px;
+	float:left;
+}
+.span20 {
+	width: 830px;
+	float:left;
+}
+.span19 {
+	width: 788px;
+	float:left;
+}
+.span18 {
+	width: 746px;
+	float:left;
+}
+.span17 {
+	width: 704px;
+	float:left;
+}
+.span16 {
+	width: 662px;
+	float:left;
+}
+.span15 {
+	width: 620px;
+	float:left;
+}
+.span14 {
+	width: 578px;
+	float:left;
+}
+.span13 {
+	width: 536px;
+	float:left;
+}
+.span12 {
+	width: 494px;
+	float:left;
+}
+.span11 {
+	width: 452px;
+	float:left;
+}
+.span10 {
+	width: 410px;
+	float:left;
+}
+.span9 {
+	width: 368px;
+	float:left;
+}
+.span8 {
+	width: 326px;
+	float:left;
+}
+.span7 {
+	width: 284px;
+	float:left;
+}
+.span6 {
+	width: 242px;
+	float:left;
+}
+.span5 {
+	width: 200px;
+	float:left;
+}
+.span4 {
+	width: 158px;
+	float:left;
+}
+.span3 {
+	width: 116px;
+	float:left;
+}
+.span2 {
+	width: 74px;
+	float:left;
+}
+.span1 {
+	width: 32px;
+	float:left;
+}
+.ml10 {
+	margin-left:10px;
+}
+.mt10 {
+	margin-top:10px;
+}

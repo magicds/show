@@ -1,0 +1,159 @@
+.page-cover {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,0.1);
+}
+/* css3 实现 */
+.main {
+    position: relative;
+    width:900px;
+    height: 100%;
+    margin: 0 auto;
+}
+.histogram,
+.heibeimap {
+    position: absolute;
+
+}
+
+#histogram1 {
+    top:0;
+    left:0;
+}
+#histogram2 {
+    top:0;
+    left:470px;
+}
+#histogram3 {
+    top:420px;
+    left:0;
+}
+#heibeimap {
+    top:420px;
+    left:470px;
+}
+
+.container-move {
+    position: absolute;
+    z-index:1000;
+    animation: container-move 3s;
+    -moz-animation: container-move 3s;
+    /* Firefox */
+    -webkit-animation: container-move 3s;
+    /* Safari 和 Chrome */
+    -o-animation: container-move 3s;
+    /* Opera */
+}
+
+.container-move div:first-child,
+.container-move canvas {
+    
+    animation: content-move 3s;
+
+}
+
+/* 移动动画 */
+
+@keyframes container-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;
+        /*transform:scale(1.5,1.5);*/
+        top: 120px;
+        left: 980px;
+    }
+}
+
+@-moz-keyframes container-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;
+        /*transform:scale(1.5,1.5);*/
+        top: 120px;
+        left: 900px;
+    }
+}
+
+@-webkit-keyframes container-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;
+        /*transform:scale(1.5,1.5);*/
+        top: 120px;
+        left: 900px;
+    }
+}
+
+@-o-keyframes container-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;
+        /*transform:scale(1.5,1.5);*/
+        top: 120px;
+        left: 900px;
+    }
+}
+
+/* 主要有这个就可以了，其他是为了兼容其他浏览器的前缀 */
+@keyframes content-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;        
+    }
+}
+
+@-moz-keyframes content-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;        
+    }
+}
+
+@-webkit-keyframes content-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;        
+    }
+}
+
+@-o-keyframes content-move {
+    from {
+        width: 450px;
+        height: 400px;
+    }
+    to {
+        width: 670px;
+        height: 600px;        
+    }
+}

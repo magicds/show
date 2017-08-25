@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>图表过渡2-css3</title>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/css3-2.css">
+</head>
+
+<body>
+    <!-- <div class="main clearfix"> -->
+    <div class="histogram" id="histogram1"></div>
+    <div class="histogram" id="histogram2"></div>
+    <div class="histogram" id="histogram3"></div>
+    <div class="heibeimap" id="heibeimap"></div>
+    <!-- </div> -->
+    <!-- 页面遮罩 -->
+    <div class="page-cover hidden" id="page-cover"></div>
+    <script src="./js/jquery-1.11.1.min.js"></script>
+    <!-- echart -->
+    <script src="./js/echarts.js"></script>
+    <!-- hebei map -->
+    <script src="./js/hebei.js"></script>
+    <!-- 图标实现 -->
+    <script src="./js/chart.js"></script>
+    <!-- 页面 -->
+    <script>
+    var $pageCover = $('#page-cover');
+
+    $('body').on('click', '.histogram,.heibeimap ', function() {
+        var $this = $(this);
+        $pageCover.removeClass('hidden');
+
+        // 如果有就先移除，以便可响应多次动画
+        if ($this.hasClass('container-move')) {
+            $this.removeClass('container-move');            
+        }
+
+        // 创建原图标的虚框线
+        var $box = $this.clone(false).empty().css({
+            'background': 'rgba(0,0,0,0.025)',
+            'border': '1px dashed #333'
+        }).appendTo($this.parent());
+
+        // 迟延一点再加上动画，放置浏览器检测不到样式变化不进行动画
+        setTimeout(function() {
+            $this.addClass('container-move');
+        }, 20);
+
+        // 动画结束，暂时用和动画相等的时间来做
+        // 更准确的是监听动画的AnimationEnd事件来控制，需要IE11+
+        setTimeout(function() {
+            $box.remove();
+            $pageCover.addClass('hidden');
+        }, 3020);
+    });
+    </script>
+</body>
+
+</html>
