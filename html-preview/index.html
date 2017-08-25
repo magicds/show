@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <title></title>
+    <style>
+        .editor { color:#00f; } 
+        .editor > style { display: block; }
+    </style>
+</head>
+
+<body>
+    <pre class="editor" id="editor" contenteditable="true">
+        &lt;style&gt;
+            html {
+                height: 100vh;
+            }
+            
+            body {
+                height: inherit;
+                background: #2e576b;
+                display: -ms-grid;
+                display: grid;
+            }
+            
+            .container {
+                margin: auto;
+            }
+            
+            .card {
+                position: relative;
+                width: 300px;
+                height: 350px;
+                background: #fff;
+                border-radius: 2px;
+                box-shadow: 0 2px 15px 3px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+            }
+            
+            .card::after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, #0065a8, rgba(221, 238, 255, 0.4) 46%, rgba(255, 255, 255, 0.5));
+            }
+            
+            .wave {
+                position: absolute;
+                top: 3%;
+                left: 50%;
+                width: 400px;
+                height: 400px;
+                margin-top: -200px;
+                margin-left: -200px;
+                background: #0af;
+                border-radius: 40%;
+                opacity: .4;
+                animation: shift 3s infinite linear;
+            }
+            
+            .wave.w2 {
+                background: yellow;
+                opacity: .1;
+                animation: shift 7s infinite linear;
+            }
+            
+            .wave.w3 {
+                animation: shift 5s infinite linear;
+                background: crimson;
+                opacity: 0.1;
+            }
+            
+            @-webkit-keyframes shift {
+                from {
+                    transform: rotate(360deg);
+                }
+            }
+            
+            @keyframes shift {
+                from {
+                    transform: rotate(360deg);
+                }
+            }
+        &lt;/style&gt;
+            
+        &lt;div class="container"&gt;
+            &lt;div class="card"&gt;
+                &lt;div class="wave w1"&gt;&lt;/div&gt;
+                &lt;div class="wave w2"&gt;&lt;/div&gt;
+                &lt;div class="wave w3"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    </pre>
+    <button class="btn btn-preview" id="preview" type="button">预览</button>
+    <script>
+        // 按钮
+        var button = document.getElementById('preview');
+        // 编辑区域
+        var editor = document.getElementById('editor');
+        // 准备一个iframe
+        var iframe = document.createElement('iframe');
+        iframe.style.position = 'fixed';
+        iframe.style.top = "10%";
+        iframe.style.left = "10%";
+        iframe.style.width = "80%";
+        iframe.style.height = "80%";
+        iframe.style.display = "none";
+
+        // 点击事件
+        button.addEventListener('click', function (e) {
+            e.stopPropagation();
+
+            // 取得编辑区域内容并转化为blob
+            var blob = new Blob([editor.innerText], {
+                type: 'text/html'
+            });
+
+            // 转成url对象设置给iframe 并显示iframe
+            iframe.src = URL.createObjectURL(blob);
+            iframe.style.display = "block";
+            document.body.appendChild(iframe);
+        });
+
+        // 其他地方点击时关闭预览
+        document.body.addEventListener('click', function (e) {
+            if(iframe.style.display == "none") return;
+            // 隐藏并移除
+            iframe.style.display = "none"; 
+            document.body.removeChild(iframe);
+        });
+    </script>
+</body>
+
+</html>
