@@ -11,3 +11,7 @@
 - [纯css实现菜单展开收起](https://cdswyda.github.io/show/demo/css-menu/menu.html)
 
 - [通过Blob和createObjectURL实现html实时预览](https://cdswyda.github.io/show/demo/html-prev/)
+
+- [炫酷的折扇展开 + 鼠标滑动气泡特效](https://cdswyda.github.io/show/demo/foldingFan/)
+
+- 
