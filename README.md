@@ -4,6 +4,8 @@
 
 - [任意内容转化为base64](https://cdswyda.github.io/show/tools/anything2base64/)
 
+- [html转义](https://cdswyda.github.io/show/tools/escape-html-character/)
+
 ## demo
 
 - [通过jQuery递延对象的then来进行传递](https://cdswyda.github.io/show/demo/jqueryPassOnByThen/test.html)

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdn.bootcss.com/zui/1.7.0/css/zui.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <form class="form-horizontal" role="form" method="post" style="margin-top: 20px;">
+            <div class="form-group">
+                <label class="col-md-2 control-label">html输入</label>
+                <div class="col-md-8">
+                    <textarea name="html_input" id="html_input" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">html输出</label>
+                <div class="col-md-8">
+                    <textarea name="html_output" id="html_output" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        (function (win) {
+            function htmlEscape(str) {
+                var div = document.createElement("div");
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+            }
+
+            var input = document.getElementById('html_input'),
+                output = document.getElementById('html_output');
+
+            input.addEventListener('input', function () {
+                output.value = htmlEscape(this.value);
+            });
+
+            output.addEventListener('mouseenter', function () {
+                if (!this.value.trim()) return;
+
+                this.focus();
+                this.select();
+            });
+
+        }(this));
+    </script>
+</body>
+
+</html>
