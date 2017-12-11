@@ -5,11 +5,723 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>cdswyda - 网页朗读实现DEMO</title>
+    <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="data:text/css;base64,CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyIHsKICAgICAgICB3aWR0aDoxcHg7CiAgICAgICAgbWFyZ2luOjAgMXB4OwogICAgICAgIGJhY2tncm91bmQ6ICNmMGYyZjU7CiAgICB9CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyOmhvcml6b250YWx7CiAgICAgICAgaGVpZ2h0OiAxcHg7CiAgICB9CgogICAgOjotd2Via2l0LXNjcm9sbGJhci1idXR0b257CiAgICAgICAgaGVpZ2h0OiAwOwogICAgfQoKICAgIDo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2sgewogICAgICAgIGJvcmRlci1yYWRpdXM6IDBweDsKICAgIH0KICAgIDo6LXdlYmtpdC1zY3JvbGxiYXItdHJhY2stcGllY2UgewogICAgICAgIGJhY2tncm91bmQtY29sb3I6ICNmMGYyZjU7CiAgICAgICAgYm9yZGVyLXJhZGl1czogMHB4OwogICAgfQogICAgOjotd2Via2l0LXNjcm9sbGJhci10aHVtYiB7CiAgICAgICAgd2lkdGg6MXB4OwogICAgICAgIG1hcmdpbjogMCAxcHg7CiAgICAgICAgYm9yZGVyLXJhZGl1czogMHB4OwogICAgICAgIGJhY2tncm91bmQ6ICNjNGM0YzQ7CiAgICB9CiAgICA6Oi13ZWJraXQtc2Nyb2xsYmFyLXRodW1iOmhvdmVyIHsKICAgICAgICBiYWNrZ3JvdW5kOiAjOTA5MDkwOwogICAgfQoKCgoKICAgIGJvZHkgewogICAgICAgIGJhY2tncm91bmQ6ICNmZmZmZmY7CiAgICAgICAgZm9udC1zaXplOiAxNHB4OwogICAgICAgIGxpbmUtaGVpZ2h0OjIuMTAyNTsKICAgICAgICBmb250LWZhbWlseTogTWljcm9zb2Z0IFlhSGVpIFVJOwogICAgICAgIGZvbnQtd2VpZ2h0OiBub3JtYWw7CiAgICAgICAgY29sb3I6ICMzYzNjM2M7CiAgICAgICAgcGFkZGluZzogMCAzOHB4OwogICAgICAgIG1heC13aWR0aDogODIwcHg7CiAgICAgICAgbWFyZ2luOiAwIGF1dG87CiAgICAgICAgd29yZC13cmFwOmJyZWFrLXdvcmQ7CgogICAgICAgIG92ZXJmbG93LXg6IGhpZGRlbjsKICAgICAgICB0ZXh0LXJlbmRlcmluZzogb3B0aW1pemVMZWdpYmlsaXR5OwogICAgICAgIC13ZWJraXQtdGV4dC1zaXplLWFkanVzdDogbm9uZTsKICAgIH0KCiAgICBicnsKICAgICAgICBsaW5lLWhlaWdodDogMi4xMDI1OwogICAgfQoKCgogICAgQG1lZGlhIChtYXgtd2lkdGg6IDYwMHB4KSB7CiAgICAgICAgYm9keXsKICAgICAgICAgICAgcGFkZGluZzogMCAzMHB4OwogICAgICAgIH0KICAgIH0KCiAgICBAbWVkaWEgKG1heC13aWR0aDogNDgwcHgpIHsKICAgICAgICBib2R5ewogICAgICAgICAgICBwYWRkaW5nOiAwIDIwcHg7CiAgICAgICAgfQogICAgfQoKICAgIC5naXN0ewogICAgICAgIHdvcmQtYnJlYWs6IG5vcm1hbDsKICAgIH0KCiAgICAucG9zdHsKICAgICAgICBtYXJnaW4tdG9wOiAxMHB4OwogICAgICAgIG1hcmdpbi1ib3R0b206IDUwcHg7CiAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlOwogICAgfQoKCgogICAgaW1newogICAgICAgIG1heC13aWR0aDogOTglOwogICAgICAgIG1hcmdpbjogMC44ZW0gYXV0byAwLjhlbSBhdXRvOwogICAgICAgIGJvcmRlci1yYWRpdXM6IDVweDsKICAgIH0KCiAgICBoMSBpbWcsIGgyIGltZywgaDMgaW1nLCBoNCBpbWcsIGg1IGltZywgaDYgaW1newogICAgICAgIG1hcmdpbjogYXV0bzsKICAgIH0KCiAgICAueDJfaW1hZ2V7CiAgICAgICAgem9vbTogNTAlOwogICAgfQoKICAgIC54M19pbWFnZXsKICAgICAgICB6b29tOiAzMy4zMyU7CiAgICB9CgogICAgLng0X2ltYWdlewogICAgICAgIHpvb206IDI1JTsKICAgIH0KCgogICAgcCBpbWd7CiAgICAgICAgbWFyZ2luOiAwIGF1dG87CiAgICB9CgogICAgcHsKICAgICAgICB3b3JkLXdyYXA6YnJlYWstd29yZDsKICAgICAgICBvdmVyZmxvdzpoaWRkZW47CiAgICAgICAgbWFyZ2luOiAxLjVlbSAwOwogICAgfQoKICAgIGxpIHB7CiAgICAgICAgbGluZS1oZWlnaHQ6IDEuODg1OwogICAgICAgIG1hcmdpbjogMDsKICAgIH0KCiAgICAucF9wYXJ0IHsKICAgICAgICBtYXJnaW46IDEwcHggMDsKICAgIH0KCiAgICAucF9wYXJ0IHB7CiAgICAgICAgbWFyZ2luOiAwIDAgMC42ZW0gMDsKICAgIH0KCiAgICAvKiB0ZXh0IGluZGVudCBmb3IgY2hpbmVzZSBzdGFydHMqLwogICAgLypoMiwgaDMsIGg0LCBoNSwgaDYsIC5wX3BhcnQgcCwgLnRvZG9faXRlbSwgcHsKICAgICAgICB0ZXh0LWluZGVudDogMHB4OwogICAgfSovCiAgICB0YWJsZSwgcHJlLCBzdmcsIC5jb2RlaGlsaXRldGFibGV7CiAgICAgICAgbWFyZ2luLWxlZnQ6IDBweDsKICAgICAgICBtYXJnaW4tcmlnaHQ6IDBweDsKICAgIH0KCiAgICAuY29kZWhpbGl0ZXRhYmxlIHByZXsKICAgICAgICBtYXJnaW4tbGVmdDogMDsKICAgICAgICBtYXJnaW4tcmlnaHQ6IDA7CgogICAgfQoKICAgIC5jb2RlaGlsaXRldGFibGUgLmNvZGVoaWxpdGUgcHJlewogICAgICAgIGJvcmRlci1sZWZ0OiBub25lOwogICAgfQoKICAgIC8qIHRleHQgaW5kZW50IGZvciBjaGluZXNlIGVuZHMqLwoKCiAgICBibG9ja3F1b3RlIC5wX3BhcnQgcCwgbGkgLnBfcGFydCBwewogICAgICAgIHRleHQtaW5kZW50OiAwICFpbXBvcnRhbnQ7CiAgICB9CgoKICAgIGhyewogICAgICAgIG1hcmdpbjogMzhweCAwOwogICAgICAgIGJvcmRlcjogbm9uZTsKICAgICAgICBib3JkZXItYm90dG9tOiAxcHggZGFzaGVkICNlM2UzZTM7CiAgICAgICAgY29sb3I6ICNlM2UzZTM7CiAgICAgICAgaGVpZ2h0OiAxcHg7CiAgICAgICAgbGluZS1oZWlnaHQ6MXB4OwogICAgICAgIGZvbnQtc2l6ZToxcHg7CiAgICAgICAgb3ZlcmZsb3c6IGhpZGRlbjsKICAgIH0KCgogICAgaDF7CiAgICAgICAgY29sb3I6ICMzMzMzMzM7CiAgICAgICAgZm9udC1zaXplOiAxLjdlbTsKICAgICAgICB0ZXh0LWFsaWduOiBsZWZ0OwogICAgICAgIG1hcmdpbjogMDsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIGxpbmUtaGVpZ2h0OiAxLjZlbTsKICAgICAgICBtYXJnaW4tdG9wOiAwLjhlbTsKICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjZlbTsKICAgIH0KCiAgICBoMSwgaDIsIGgzLCBoNHsKICAgICAgICBjb2xvcjogIzMzMzMzMzsKICAgIH0KCiAgICBoMSwgaDIsIGgzewogICAgICAgIGZvbnQtd2VpZ2h0OiBub3JtYWw7CiAgICB9CgogICAgaDIsIGgzewogICAgICAgIGxpbmUtaGVpZ2h0OiAxLjVlbTsKICAgICAgICBtYXJnaW4tdG9wOiAxLjVlbTsKICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjhlbTsKICAgIH0KCiAgICBoMiB7CiAgICAgICAgZm9udC1zaXplOiAxLjQ1ZW07CiAgICB9CgogICAgaDMgewogICAgICAgIGZvbnQtc2l6ZTogMS4yNWVtCiAgICB9CgoKICAgIG9sIHsKICAgICAgICBtYXJnaW46IDA7CiAgICB9CgogICAgdWx7CiAgICAgICAgcGFkZGluZzogNXB4IDM4cHg7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIHVsIGxpLCBsaXsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIG1hcmdpbjogMDsKICAgIH0KCiAgICB1bCBwLCBvbCBwewogICAgICAgIG92ZXJmbG93OiB2aXNpYmxlOwogICAgfQoKCiAgICBibG9ja3F1b3RlIHsKICAgICAgICAtbW96LWJveC1zaXppbmc6IGJvcmRlci1ib3g7CiAgICAgICAgYm94LXNpemluZzogYm9yZGVyLWJveDsKICAgICAgICBtYXJnaW46IDEuNmVtIDA7CiAgICAgICAgcGFkZGluZzogMCAwIDAgMS4yZW07CiAgICAgICAgYm9yZGVyLWxlZnQ6IDAuNGVtIHNvbGlkICNkZGRkZGQ7CiAgICAgICAgY29sb3I6ICM5OTk5OTk7CiAgICAgICAgbWluLWhlaWdodDoyMHB4OwogICAgfQoKCiAgICBibG9ja3F1b3RlIHAgewogICAgICAgIG1hcmdpbjogMC44ZW0gMDsKICAgIH0KCiAgICBibG9ja3F1b3RlIHNwYW4ubWRfbGluZSB7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMC4yNWVtOwogICAgICAgIG1hcmdpbi10b3A6IDAuMjVlbTsKICAgIH0KCiAgICBibG9ja3F1b3RlIHVsewogICAgICAgIHBhZGRpbmc6IDAgMTVweDsKICAgIH0KCiAgICBibG9ja3F1b3RlIHNtYWxsIHsKICAgICAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7CiAgICAgICAgbWFyZ2luOiAwLjhlbSAwIDAuOGVtIDEuNWVtOwogICAgICAgIGZvbnQtc2l6ZTogMC45ZW07CiAgICAgICAgY29sb3I6ICNjY2M7CiAgICB9CgoKCiAgICB0YWJsZSB7CiAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CiAgICAgICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTsKICAgICAgICBib3JkZXItc3BhY2luZzogMDsKICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjZDlkOWQ5OwogICAgICAgIGJvcmRlci1sZWZ0OiAwOwogICAgICAgIG1hcmdpbi10b3A6IDIwcHg7CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMjBweDsKICAgIH0KCgogICAgdGgsIHRkIHsKICAgICAgICBib3JkZXItbGVmdDogMXB4IHNvbGlkICNkOWQ5ZDk7CiAgICAgICAgcGFkZGluZzogOHB4OwogICAgICAgIGxpbmUtaGVpZ2h0OiAyMHB4OwogICAgICAgIHRleHQtYWxpZ246IGxlZnQ7CiAgICAgICAgdmVydGljYWwtYWxpZ246IHRvcDsKICAgICAgICBib3JkZXItdG9wOiAxcHggc29saWQgI2Q5ZDlkOTsKICAgIH0KCgoKCiAgICBjb2RlewogICAgICAgIGJhY2tncm91bmQ6ICNmNWY1ZjU7CiAgICAgICAgcGFkZGluZzogMCA1cHg7CiAgICAgICAgbWFyZ2luOiAwIDJweDsKICAgIH0KCiAgICBwcmV7CiAgICAgICAgYm9yZGVyOiAxcHggc29saWQgI2U2ZTZlNjsKICAgICAgICBtYXJnaW4tdG9wOiAxLjJlbTsKICAgICAgICBtYXJnaW4tYm90dG9tOiAxLjJlbTsKICAgICAgICBwYWRkaW5nOiAxNXB4IDEwcHg7CiAgICAgICAgZGlzcGxheTogYmxvY2s7CiAgICAgICAgb3ZlcmZsb3c6IGF1dG87CiAgICAgICAgYmFja2dyb3VuZDogI2Y3ZjdmNzsKICAgICAgICBmb250LXNpemU6IDkwJTsKICAgIH0KCiAgICAud2l0aF9saW5lcyBwcmV7CiAgICAgICAgYm9yZGVyOm5vbmU7CiAgICAgICAgbWFyZ2luLXRvcDogMC4yZW07CiAgICAgICAgbWFyZ2luLWJvdHRvbTogMC4yZW07CiAgICAgICAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CiAgICB9CgogICAgLmlzX2NvZGVfZmlsZSBwcmV7CiAgICAgICAgYm9yZGVyOiBub25lOwogICAgICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50OwogICAgfQoKICAgIC5jb2RlaGlsaXRlIHByZXsKICAgICAgICB3b3JkLXdyYXA6IG5vcm1hbDsKICAgIH0KCiAgICBwcmUgY29kZXsKICAgICAgICBib3JkZXI6bm9uZTsKICAgICAgICBiYWNrZ3JvdW5kOiBub25lOwogICAgICAgIHBhZGRpbmc6IDA7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQoKICAgIHByZSBwewogICAgICAgIG1hcmdpbjogMDsKICAgICAgICBwYWRkaW5nOiAwOwogICAgfQoKICAgIC5jb2RlaGlsaXRlIHRoLCAuY29kZWhpbGl0ZSB0ZHsKICAgICAgICBsaW5lLWhlaWdodDogMS44ZW07CiAgICB9CgoKICAgIGF7CiAgICAgICAgY29sb3I6ICM2NDcxODU7CiAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiBub25lOwogICAgICAgIC8vYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHRyYW5zcGFyZW50OwogICAgfQoKICAgIGE6aG92ZXJ7CiAgICAgICAgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7CiAgICAgICAgLy9ib3JkZXItYm90dG9tOiAxcHggc29saWQgIzY0NzE4NTsKICAgIH0KCiAgICBzdHJvbmcgewogICAgICAgIGNvbG9yOiAjMDAwMDAwOwogICAgICAgIGZvbnQtd2VpZ2h0OiBib2xkOwogICAgfQoKCiAgICAvKiBmb3IgbWFya2Rvd24gKi8KCiAgICAubGluZW5vcyBwcmV7CgkJYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7CgkJYm9yZGVyOiBub25lOwoJfQoJLyoKCS5saW5lbm9zewoJICAgIHBhZGRpbmc6IDAgMCAwIDEwcHg7Cgl9CgkqLwoKICAgIC50b2N7CiAgICAgICAgYmFja2dyb3VuZDogI2ZkZmRmZDsKICAgICAgICBib3JkZXItcmFkaXVzOiA1cHg7CiAgICAgICAgYm9yZGVyOiAxcHggc29saWQgI2U2ZTZlNjsKICAgICAgICBtYXJnaW46IDI3cHggMCA0N3B4IDA7CiAgICAgICAgcGFkZGluZzogMTBweCAwOwogICAgfQoKICAgIC50b2MgdWx7CiAgICAgICAgLy9wYWRkaW5nOiA1cHggNDJweDsKICAgIH0KCiAgICAudG9jIHVsIGxpewogICAgICAgIHBhZGRpbmc6IDA7CiAgICAgICAgbWFyZ2luOiAwOwogICAgfQogICAgLnRvYyBhewogICAgICAgIGNvbG9yOiAjM2MzYzNjOwogICAgfQoKCgogICAgLnRvZG9faXRlbXsKICAgICAgICBsaXN0LXN0eWxlOiBub25lOwogICAgICAgIG1hcmdpbi1sZWZ0OiAtMS41ZW0KICAgIH0KICAgIC50b2RvX2l0ZW0gLnRvZG9faXRlbSB7CiAgICAgICAgbWFyZ2luLWxlZnQ6IGF1dG87CiAgICB9CgogICAgLnRvZG9fZG9uZV9pdGVtewogICAgICAgIGNvbG9yOiAjZDVkYWUwOwogICAgfQoKICAgIC50b2RvX3VuZG9uZV9pdGVtewogICAgICAgIGNvbG9yOiAjZDE1YTc5OwogICAgfQoKCiAgICB1bCBsaS50b2RvX2l0ZW17CglsaXN0LXN0eWxlLXR5cGU6IG5vbmU7CiAgICB9CgogICAgdWwgbGkudG9kb19pdGVtOmJlZm9yZXsKICAgICAgICBjb250ZW50OiAnXDI3MTUnOwogICAgICAgIHBhZGRpbmctcmlnaHQ6IDAuN2VtOwogICAgICAgIGZvbnQtZmFtaWx5OiBhcmlhbDsKICAgIH0KCiAgICB1bCBsaS50b2RvX2RvbmVfaXRlbTpiZWZvcmV7CiAgICAgICAgY29udGVudDogJ1wyNzEzJzsKICAgICAgICBwYWRkaW5nLXJpZ2h0OiAwLjdlbTsKICAgICAgICBmb250LWZhbWlseTogYXJpYWw7CiAgICB9CgogICAgdWwgbGkudG9kb19pdGVtIGlucHV0ewogICAgICAgIGRpc3BsYXk6bm9uZQogICAgfQoKCiAgICAvKnB5Z21lbnRzKi8KCiAgICAuY29kZWhpbGl0ZXsKICAgICAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudCAhaW1wb3J0YW50OwogICAgfQoKICAgIHRhYmxlLmNvZGVoaWxpdGV0YWJsZXsgYm9yZGVyOm5vbmU7IH0KCgogICAgLmNvZGVoaWxpdGV0YWJsZSB0ZHsgYm9yZGVyOiBub25lOyBwYWRkaW5nOiAwO30KCiAgICAuZmxvdy1ncmFwaGlje3RleHQtYWxpZ246IGNlbnRlcn0KCgogICAgdGFibGUsIHRyLCB0ZCwgdGgsIHRib2R5LCB0aGVhZCwgdGZvb3QsIC5tZF9lY2hhcnRzLCBibG9ja3F1b3RlIC5tZF9saW5lewogICAgICAgIHBhZ2UtYnJlYWstaW5zaWRlOiBhdm9pZCAhaW1wb3J0YW50OwogICAgfQoKICAgIC5mb290bm90ZXMgLm1kX2xpbmV7CiAgICAgICAgZGlzcGxheTogaW5saW5lICFpbXBvcnRhbnQ7CiAgICB9CgoKICAgIC5pbWdfcnRfOTB7CiAgICAgICAgdHJhbnNmb3JtOnJvdGF0ZSg5MGRlZyk7CiAgICAgICAgLW1zLXRyYW5zZm9ybTpyb3RhdGUoOTBkZWcpOwogICAgICAgIC1tb3otdHJhbnNmb3JtOnJvdGF0ZSg5MGRlZyk7CiAgICAgICAgLXdlYmtpdC10cmFuc2Zvcm06cm90YXRlKDkwZGVnKTsKICAgICAgICAtby10cmFuc2Zvcm06cm90YXRlKDkwZGVnKTsKICAgIH0KICAgIC5pbWdfcnRfMTgwewogICAgICAgIHRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgICAgICAtbXMtdHJhbnNmb3JtOnJvdGF0ZSgxODBkZWcpOwogICAgICAgIC1tb3otdHJhbnNmb3JtOnJvdGF0ZSgxODBkZWcpOwogICAgICAgIC13ZWJraXQtdHJhbnNmb3JtOnJvdGF0ZSgxODBkZWcpOwogICAgICAgIC1vLXRyYW5zZm9ybTpyb3RhdGUoMTgwZGVnKTsKICAgIH0KICAgIC5pbWdfcnRfMjcwewogICAgICAgIHRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgICAgICAtbXMtdHJhbnNmb3JtOnJvdGF0ZSgyNzBkZWcpOwogICAgICAgIC1tb3otdHJhbnNmb3JtOnJvdGF0ZSgyNzBkZWcpOwogICAgICAgIC13ZWJraXQtdHJhbnNmb3JtOnJvdGF0ZSgyNzBkZWcpOwogICAgICAgIC1vLXRyYW5zZm9ybTpyb3RhdGUoMjcwZGVnKTsKICAgIH0KCiAgICAubWRfaGFzX2Jsb2NrX2JlbG93ewogICAgICAgIG1hcmdpbi1ib3R0b206IDAuMWVtICFpbXBvcnRhbnQ7CiAgICB9CiAgICAubWRfaGFzX2Jsb2NrX2JlbG93X2ltZ3sKICAgICAgICBtYXJnaW4tYm90dG9tOiAtMC42ZW0gIWltcG9ydGFudDsKICAgIH0KCgoKICAgICAgICBzcGFuLm1kX2xpbmV7bWFyZ2luLWJvdHRvbTowLjVlbTsgZGlzcGxheTpibG9jazsgbGluZS1oZWlnaHQ6MS44MTg2NjI1fQogICAgICAgIC5tZF9saW5lIGJyeyBkaXNwbGF5OiBub25lO30KICAgICAgICAuY29kZWhpbGl0ZSAuaGxsIHsgYmFja2dyb3VuZC1jb2xvcjogI2ZmZmZjYyB9Ci5jb2RlaGlsaXRlICB7IGJhY2tncm91bmQ6ICNmZmZmZmY7IH0KLmNvZGVoaWxpdGUgLmMgeyBjb2xvcjogIzk5OTk4ODsgZm9udC1zdHlsZTogaXRhbGljIH0gLyogQ29tbWVudCAqLwouY29kZWhpbGl0ZSAuZXJyIHsgY29sb3I6ICNhNjE3MTc7IGJhY2tncm91bmQtY29sb3I6ICNlM2QyZDIgfSAvKiBFcnJvciAqLwouY29kZWhpbGl0ZSAuayB7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogS2V5d29yZCAqLwouY29kZWhpbGl0ZSAubyB7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogT3BlcmF0b3IgKi8KLmNvZGVoaWxpdGUgLmNoIHsgY29sb3I6ICM5OTk5ODg7IGZvbnQtc3R5bGU6IGl0YWxpYyB9IC8qIENvbW1lbnQuSGFzaGJhbmcgKi8KLmNvZGVoaWxpdGUgLmNtIHsgY29sb3I6ICM5OTk5ODg7IGZvbnQtc3R5bGU6IGl0YWxpYyB9IC8qIENvbW1lbnQuTXVsdGlsaW5lICovCi5jb2RlaGlsaXRlIC5jcCB7IGNvbG9yOiAjOTk5OTk5OyBmb250LXdlaWdodDogYm9sZCB9IC8qIENvbW1lbnQuUHJlcHJvYyAqLwouY29kZWhpbGl0ZSAuY3BmIHsgY29sb3I6ICM5OTk5ODg7IGZvbnQtc3R5bGU6IGl0YWxpYyB9IC8qIENvbW1lbnQuUHJlcHJvY0ZpbGUgKi8KLmNvZGVoaWxpdGUgLmMxIHsgY29sb3I6ICM5OTk5ODg7IGZvbnQtc3R5bGU6IGl0YWxpYyB9IC8qIENvbW1lbnQuU2luZ2xlICovCi5jb2RlaGlsaXRlIC5jcyB7IGNvbG9yOiAjOTk5OTk5OyBmb250LXdlaWdodDogYm9sZDsgZm9udC1zdHlsZTogaXRhbGljIH0gLyogQ29tbWVudC5TcGVjaWFsICovCi5jb2RlaGlsaXRlIC5nZCB7IGNvbG9yOiAjMDAwMDAwOyBiYWNrZ3JvdW5kLWNvbG9yOiAjZmZkZGRkIH0gLyogR2VuZXJpYy5EZWxldGVkICovCi5jb2RlaGlsaXRlIC5nZSB7IGZvbnQtc3R5bGU6IGl0YWxpYyB9IC8qIEdlbmVyaWMuRW1waCAqLwouY29kZWhpbGl0ZSAuZ3IgeyBjb2xvcjogI2FhMDAwMCB9IC8qIEdlbmVyaWMuRXJyb3IgKi8KLmNvZGVoaWxpdGUgLmdoIHsgY29sb3I6ICM5OTk5OTkgfSAvKiBHZW5lcmljLkhlYWRpbmcgKi8KLmNvZGVoaWxpdGUgLmdpIHsgY29sb3I6ICMwMDAwMDA7IGJhY2tncm91bmQtY29sb3I6ICNkZGZmZGQgfSAvKiBHZW5lcmljLkluc2VydGVkICovCi5jb2RlaGlsaXRlIC5nbyB7IGNvbG9yOiAjODg4ODg4IH0gLyogR2VuZXJpYy5PdXRwdXQgKi8KLmNvZGVoaWxpdGUgLmdwIHsgY29sb3I6ICM1NTU1NTUgfSAvKiBHZW5lcmljLlByb21wdCAqLwouY29kZWhpbGl0ZSAuZ3MgeyBmb250LXdlaWdodDogYm9sZCB9IC8qIEdlbmVyaWMuU3Ryb25nICovCi5jb2RlaGlsaXRlIC5ndSB7IGNvbG9yOiAjYWFhYWFhIH0gLyogR2VuZXJpYy5TdWJoZWFkaW5nICovCi5jb2RlaGlsaXRlIC5ndCB7IGNvbG9yOiAjYWEwMDAwIH0gLyogR2VuZXJpYy5UcmFjZWJhY2sgKi8KLmNvZGVoaWxpdGUgLmtjIHsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLkNvbnN0YW50ICovCi5jb2RlaGlsaXRlIC5rZCB7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogS2V5d29yZC5EZWNsYXJhdGlvbiAqLwouY29kZWhpbGl0ZSAua24geyBmb250LXdlaWdodDogYm9sZCB9IC8qIEtleXdvcmQuTmFtZXNwYWNlICovCi5jb2RlaGlsaXRlIC5rcCB7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogS2V5d29yZC5Qc2V1ZG8gKi8KLmNvZGVoaWxpdGUgLmtyIHsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBLZXl3b3JkLlJlc2VydmVkICovCi5jb2RlaGlsaXRlIC5rdCB7IGNvbG9yOiAjNDQ1NTg4OyBmb250LXdlaWdodDogYm9sZCB9IC8qIEtleXdvcmQuVHlwZSAqLwouY29kZWhpbGl0ZSAubSB7IGNvbG9yOiAjMDA5OTk5IH0gLyogTGl0ZXJhbC5OdW1iZXIgKi8KLmNvZGVoaWxpdGUgLnMgeyBjb2xvcjogI2JiODg0NCB9IC8qIExpdGVyYWwuU3RyaW5nICovCi5jb2RlaGlsaXRlIC5uYSB7IGNvbG9yOiAjMDA4MDgwIH0gLyogTmFtZS5BdHRyaWJ1dGUgKi8KLmNvZGVoaWxpdGUgLm5iIHsgY29sb3I6ICM5OTk5OTkgfSAvKiBOYW1lLkJ1aWx0aW4gKi8KLmNvZGVoaWxpdGUgLm5jIHsgY29sb3I6ICM0NDU1ODg7IGZvbnQtd2VpZ2h0OiBib2xkIH0gLyogTmFtZS5DbGFzcyAqLwouY29kZWhpbGl0ZSAubm8geyBjb2xvcjogIzAwODA4MCB9IC8qIE5hbWUuQ29uc3RhbnQgKi8KLmNvZGVoaWxpdGUgLm5pIHsgY29sb3I6ICM4MDAwODAgfSAvKiBOYW1lLkVudGl0eSAqLwouY29kZWhpbGl0ZSAubmUgeyBjb2xvcjogIzk5MDAwMDsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBOYW1lLkV4Y2VwdGlvbiAqLwouY29kZWhpbGl0ZSAubmYgeyBjb2xvcjogIzk5MDAwMDsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBOYW1lLkZ1bmN0aW9uICovCi5jb2RlaGlsaXRlIC5ubiB7IGNvbG9yOiAjNTU1NTU1IH0gLyogTmFtZS5OYW1lc3BhY2UgKi8KLmNvZGVoaWxpdGUgLm50IHsgY29sb3I6ICMwMDAwODAgfSAvKiBOYW1lLlRhZyAqLwouY29kZWhpbGl0ZSAubnYgeyBjb2xvcjogIzAwODA4MCB9IC8qIE5hbWUuVmFyaWFibGUgKi8KLmNvZGVoaWxpdGUgLm93IHsgZm9udC13ZWlnaHQ6IGJvbGQgfSAvKiBPcGVyYXRvci5Xb3JkICovCi5jb2RlaGlsaXRlIC53IHsgY29sb3I6ICNiYmJiYmIgfSAvKiBUZXh0LldoaXRlc3BhY2UgKi8KLmNvZGVoaWxpdGUgLm1iIHsgY29sb3I6ICMwMDk5OTkgfSAvKiBMaXRlcmFsLk51bWJlci5CaW4gKi8KLmNvZGVoaWxpdGUgLm1mIHsgY29sb3I6ICMwMDk5OTkgfSAvKiBMaXRlcmFsLk51bWJlci5GbG9hdCAqLwouY29kZWhpbGl0ZSAubWggeyBjb2xvcjogIzAwOTk5OSB9IC8qIExpdGVyYWwuTnVtYmVyLkhleCAqLwouY29kZWhpbGl0ZSAubWkgeyBjb2xvcjogIzAwOTk5OSB9IC8qIExpdGVyYWwuTnVtYmVyLkludGVnZXIgKi8KLmNvZGVoaWxpdGUgLm1vIHsgY29sb3I6ICMwMDk5OTkgfSAvKiBMaXRlcmFsLk51bWJlci5PY3QgKi8KLmNvZGVoaWxpdGUgLnNiIHsgY29sb3I6ICNiYjg4NDQgfSAvKiBMaXRlcmFsLlN0cmluZy5CYWNrdGljayAqLwouY29kZWhpbGl0ZSAuc2MgeyBjb2xvcjogI2JiODg0NCB9IC8qIExpdGVyYWwuU3RyaW5nLkNoYXIgKi8KLmNvZGVoaWxpdGUgLnNkIHsgY29sb3I6ICNiYjg4NDQgfSAvKiBMaXRlcmFsLlN0cmluZy5Eb2MgKi8KLmNvZGVoaWxpdGUgLnMyIHsgY29sb3I6ICNiYjg4NDQgfSAvKiBMaXRlcmFsLlN0cmluZy5Eb3VibGUgKi8KLmNvZGVoaWxpdGUgLnNlIHsgY29sb3I6ICNiYjg4NDQgfSAvKiBMaXRlcmFsLlN0cmluZy5Fc2NhcGUgKi8KLmNvZGVoaWxpdGUgLnNoIHsgY29sb3I6ICNiYjg4NDQgfSAvKiBMaXRlcmFsLlN0cmluZy5IZXJlZG9jICovCi5jb2RlaGlsaXRlIC5zaSB7IGNvbG9yOiAjYmI4ODQ0IH0gLyogTGl0ZXJhbC5TdHJpbmcuSW50ZXJwb2wgKi8KLmNvZGVoaWxpdGUgLnN4IHsgY29sb3I6ICNiYjg4NDQgfSAvKiBMaXRlcmFsLlN0cmluZy5PdGhlciAqLwouY29kZWhpbGl0ZSAuc3IgeyBjb2xvcjogIzgwODAwMCB9IC8qIExpdGVyYWwuU3RyaW5nLlJlZ2V4ICovCi5jb2RlaGlsaXRlIC5zMSB7IGNvbG9yOiAjYmI4ODQ0IH0gLyogTGl0ZXJhbC5TdHJpbmcuU2luZ2xlICovCi5jb2RlaGlsaXRlIC5zcyB7IGNvbG9yOiAjYmI4ODQ0IH0gLyogTGl0ZXJhbC5TdHJpbmcuU3ltYm9sICovCi5jb2RlaGlsaXRlIC5icCB7IGNvbG9yOiAjOTk5OTk5IH0gLyogTmFtZS5CdWlsdGluLlBzZXVkbyAqLwouY29kZWhpbGl0ZSAudmMgeyBjb2xvcjogIzAwODA4MCB9IC8qIE5hbWUuVmFyaWFibGUuQ2xhc3MgKi8KLmNvZGVoaWxpdGUgLnZnIHsgY29sb3I6ICMwMDgwODAgfSAvKiBOYW1lLlZhcmlhYmxlLkdsb2JhbCAqLwouY29kZWhpbGl0ZSAudmkgeyBjb2xvcjogIzAwODA4MCB9IC8qIE5hbWUuVmFyaWFibGUuSW5zdGFuY2UgKi8KLmNvZGVoaWxpdGUgLmlsIHsgY29sb3I6ICMwMDk5OTkgfSAvKiBMaXRlcmFsLk51bWJlci5JbnRlZ2VyLkxvbmcgKi90YWJsZS5jb2RlaGlsaXRlIHsKICAgIHdpZHRoIDogMTAwJTsKICAgIG1hcmdpbiA6IDAgMCAxLjVlbTsKCiAgICB0YWJsZS1sYXlvdXQgOiBmaXhlZDsKICAgIC8qICAgICBib3JkZXI6MXB4IHNvbGlkICNjY2M7ICovCiAgICAvKiBib3JkZXItcmFkaXVzOjRweDsgKi8KICAgIGJvcmRlci1jb2xsYXBzZSA6IGNvbGxhcHNlOwp9Ci5jb2RlaGlsaXRlIC5obGwgewogICAgYmFja2dyb3VuZC1jb2xvciA6ICNmZmM7Cn0KLmNvZGVoaWxpdGUgewogICAgd2lkdGggOiAxMDAlOwoKICAgIGJhY2tncm91bmQgOiAjZjhmOGY4Owp9Ci5jb2RlaGlsaXRlIC5saW5lbm9zICwKLmNvZGVoaWxpdGUgLmNvZGUgewogICAgcGFkZGluZyA6IDA7Cn0KCi5jb2RlaGlsaXRlIC5saW5lbm9zIHsKICAgIHdpZHRoIDogMzBweDsKfQouY29kZWhpbGl0ZSAgcHJlIHsKICAgIG92ZXJmbG93IDogYXV0bzsKCiAgICB3aGl0ZS1zcGFjZSA6IHByZTsKfQouY29kZWhpbGl0ZSAubGluZW5vcyBwcmUgLAouY29kZWhpbGl0ZSAuY29kZSBwcmUgLAouY29kZWhpbGl0ZSA+IHByZSB7CiAgICBtYXJnaW4gOiAwOwogICAgcGFkZGluZyA6IDRweDsKCiAgICBib3JkZXIgOiAxcHggc29saWQgI2VmZTdlNzsKICAgIGJvcmRlci1yYWRpdXMgOiA0cHg7CiAgICBiYWNrZ3JvdW5kIDogI2Y4ZjhmODsKfQouY29kZWhpbGl0ZSAubGluZW5vcyBwcmUgewogICAgdGV4dC1hbGlnbiA6IGNlbnRlcjsKCiAgICBib3JkZXItcmlnaHQtd2lkdGggOiAwOwogICAgYm9yZGVyLXRvcC1yaWdodC1yYWRpdXMgOiAwOwogICAgYm9yZGVyLWJvdHRvbS1yaWdodC1yYWRpdXMgOiAwOwp9Ci5jb2RlaGlsaXRlIC5jb2RlIHByZSB7CiAgICBvdmVyZmxvdyA6IGF1dG87CgogICAgYm9yZGVyIDogMXB4IHNvbGlkICNlZmU3ZTc7CiAgICBib3JkZXItdG9wLWxlZnQtcmFkaXVzIDogMDsKICAgIGJvcmRlci1ib3R0b20tbGVmdC1yYWRpdXMgOiAwOwp9Ci5jb2RlaGlsaXRlID4gcHJlIHsKICAgIGJvcmRlciA6IDFweCBzb2xpZCAjZWZlN2U3OwogICAgYm9yZGVyLXJhZGl1cyA6IDRweDsKfQovKiDlsI/lsY/luZXml7Yg5LiN5pi+56S66KGM5Y+3ICovCkBtZWRpYSBzY3JlZW4gYW5kIChtYXgtd2lkdGg6IDQ4ZW0pIHsKICAgIC5jb2RlaGlsaXRlIC5saW5lbm9zIHsKICAgICAgICBkaXNwbGF5IDogbm9uZTsKICAgIH0KICAgIC5jb2RlaGlsaXRlIC5jb2RlIHByZSB7CiAgICAgICAgYm9yZGVyLXRvcC1sZWZ0LXJhZGl1cyA6IDRweDsKICAgICAgICBib3JkZXItYm90dG9tLWxlZnQtcmFkaXVzIDogNHB4OwogICAgfQp9Ci5jb2RlaGlsaXRlIC5jIHsKICAgIGZvbnQtc3R5bGUgOiBpdGFsaWM7CgogICAgY29sb3IgOiAjMDgwOwp9IC8qIENvbW1lbnQgKi8KLmNvZGVoaWxpdGUgLmVyciB7CiAgICBib3JkZXIgOiAxcHggc29saWQgI2YwMDsKfSAvKiBFcnJvciAqLwouY29kZWhpbGl0ZSAuayB7CiAgICBmb250LXdlaWdodCA6IGJvbGQ7CgogICAgY29sb3IgOiAjYTJmOwp9IC8qIEtleXdvcmQgKi8KLmNvZGVoaWxpdGUgLm8gewogICAgY29sb3IgOiAjNjY2Owp9IC8qIE9wZXJhdG9yICovCi5jb2RlaGlsaXRlIC5jbSB7CiAgICBmb250LXN0eWxlIDogaXRhbGljOwoKICAgIGNvbG9yIDogIzA4MDsKfSAvKiBDb21tZW50Lk11bHRpbGluZSAqLwouY29kZWhpbGl0ZSAuY3AgewogICAgY29sb3IgOiAjMDgwOwp9IC8qIENvbW1lbnQuUHJlcHJvYyAqLwouY29kZWhpbGl0ZSAuYzEgewogICAgZm9udC1zdHlsZSA6IGl0YWxpYzsKCiAgICBjb2xvciA6ICMwODA7Cn0gLyogQ29tbWVudC5TaW5nbGUgKi8KLmNvZGVoaWxpdGUgLmNzIHsKICAgIGZvbnQtd2VpZ2h0IDogYm9sZDsKCiAgICBjb2xvciA6ICMwODA7Cn0gLyogQ29tbWVudC5TcGVjaWFsICovCi5jb2RlaGlsaXRlIC5nZCB7CiAgICBjb2xvciA6ICNhMDAwMDA7Cn0gLyogR2VuZXJpYy5EZWxldGVkICovCi5jb2RlaGlsaXRlIC5nZSB7CiAgICBmb250LXN0eWxlIDogaXRhbGljOwp9IC8qIEdlbmVyaWMuRW1waCAqLwouY29kZWhpbGl0ZSAuZ3IgewogICAgY29sb3IgOiAjZjAwOwp9IC8qIEdlbmVyaWMuRXJyb3IgKi8KLmNvZGVoaWxpdGUgLmdoIHsKICAgIGZvbnQtd2VpZ2h0IDogYm9sZDsKCiAgICBjb2xvciA6ICMwMDAwODA7Cn0gLyogR2VuZXJpYy5IZWFkaW5nICovCi5jb2RlaGlsaXRlIC5naSB7CiAgICBjb2xvciA6ICMwMGEwMDA7Cn0gLyogR2VuZXJpYy5JbnNlcnRlZCAqLwouY29kZWhpbGl0ZSAuZ28gewogICAgY29sb3IgOiAjODA4MDgwOwp9IC8qIEdlbmVyaWMuT3V0cHV0ICovCi5jb2RlaGlsaXRlIC5ncCB7CiAgICBmb250LXdlaWdodCA6IGJvbGQ7CgogICAgY29sb3IgOiAjMDAwMDgwOwp9IC8qIEdlbmVyaWMuUHJvbXB0ICovCi5jb2RlaGlsaXRlIC5ncyB7CiAgICBmb250LXdlaWdodCA6IGJvbGQ7Cn0gLyogR2VuZXJpYy5TdHJvbmcgKi8KLmNvZGVoaWxpdGUgLmd1IHsKICAgIGZvbnQtd2VpZ2h0IDogYm9sZDsKCiAgICBjb2xvciA6ICM4MDAwODA7Cn0gLyogR2VuZXJpYy5TdWJoZWFkaW5nICovCi5jb2RlaGlsaXRlIC5ndCB7CiAgICBjb2xvciA6ICMwMDQwZDA7Cn0gLyogR2VuZXJpYy5UcmFjZWJhY2sgKi8KLmNvZGVoaWxpdGUgLmtjIHsKICAgIGZvbnQtd2VpZ2h0IDogYm9sZDsKCiAgICBjb2xvciA6ICNhMmY7Cn0gLyogS2V5d29yZC5Db25zdGFudCAqLwouY29kZWhpbGl0ZSAua2QgewogICAgZm9udC13ZWlnaHQgOiBib2xkOwoKICAgIGNvbG9yIDogI2EyZjsKfSAvKiBLZXl3b3JkLkRlY2xhcmF0aW9uICovCi5jb2RlaGlsaXRlIC5rbiB7CiAgICBmb250LXdlaWdodCA6IGJvbGQ7CgogICAgY29sb3IgOiAjYTJmOwp9IC8qIEtleXdvcmQuTmFtZXNwYWNlICovCi5jb2RlaGlsaXRlIC5rcCB7CiAgICBjb2xvciA6ICNhMmY7Cn0gLyogS2V5d29yZC5Qc2V1ZG8gKi8KLmNvZGVoaWxpdGUgLmtyIHsKICAgIGZvbnQtd2VpZ2h0IDogYm9sZDsKCiAgICBjb2xvciA6ICNhMmY7Cn0gLyogS2V5d29yZC5SZXNlcnZlZCAqLwouY29kZWhpbGl0ZSAua3QgewogICAgZm9udC13ZWlnaHQgOiBib2xkOwoKICAgIGNvbG9yIDogIzBiMDsKfSAvKiBLZXl3b3JkLlR5cGUgKi8KLmNvZGVoaWxpdGUgLm0gewogICAgY29sb3IgOiAjNjY2Owp9IC8qIExpdGVyYWwuTnVtYmVyICovCi5jb2RlaGlsaXRlIC5zIHsKICAgIGNvbG9yIDogI2I0NDsKfSAvKiBMaXRlcmFsLlN0cmluZyAqLwouY29kZWhpbGl0ZSAubmEgewogICAgY29sb3IgOiAjYjQ0Owp9IC8qIE5hbWUuQXR0cmlidXRlICovCi5jb2RlaGlsaXRlIC5uYiB7CiAgICBjb2xvciA6ICNhMmY7Cn0gLyogTmFtZS5CdWlsdGluICovCi5jb2RlaGlsaXRlIC5uYyB7CiAgICBjb2xvciA6ICMwMGY7Cn0gLyogTmFtZS5DbGFzcyAqLwouY29kZWhpbGl0ZSAubm8gewogICAgY29sb3IgOiAjODAwOwp9IC8qIE5hbWUuQ29uc3RhbnQgKi8KLmNvZGVoaWxpdGUgLm5kIHsKICAgIGNvbG9yIDogI2EyZjsKfSAvKiBOYW1lLkRlY29yYXRvciAqLwouY29kZWhpbGl0ZSAubmkgewogICAgZm9udC13ZWlnaHQgOiBib2xkOwoKICAgIGNvbG9yIDogIzk5OTsKfSAvKiBOYW1lLkVudGl0eSAqLwouY29kZWhpbGl0ZSAubmUgewogICAgZm9udC13ZWlnaHQgOiBib2xkOwoKICAgIGNvbG9yIDogI2QyNDEzYTsKfSAvKiBOYW1lLkV4Y2VwdGlvbiAqLwouY29kZWhpbGl0ZSAubmYgewogICAgY29sb3IgOiAjMDBhMDAwOwp9IC8qIE5hbWUuRnVuY3Rpb24gKi8KLmNvZGVoaWxpdGUgLm5sIHsKICAgIGNvbG9yIDogI2EwYTAwMDsKfSAvKiBOYW1lLkxhYmVsICovCi5jb2RlaGlsaXRlIC5ubiB7CiAgICBmb250LXdlaWdodCA6IGJvbGQ7CgogICAgY29sb3IgOiAjMDBmOwp9IC8qIE5hbWUuTmFtZXNwYWNlICovCi5jb2RlaGlsaXRlIC5udCB7CiAgICBmb250LXdlaWdodCA6IGJvbGQ7CgogICAgY29sb3IgOiAjMDA4MDAwOwp9IC8qIE5hbWUuVGFnICovCi5jb2RlaGlsaXRlIC5udiB7CiAgICBjb2xvciA6ICNiODg2MGI7Cn0gLyogTmFtZS5WYXJpYWJsZSAqLwouY29kZWhpbGl0ZSAub3cgewogICAgZm9udC13ZWlnaHQgOiBib2xkOwoKICAgIGNvbG9yIDogI2EyZjsKfSAvKiBPcGVyYXRvci5Xb3JkICovCi5jb2RlaGlsaXRlIC53IHsKICAgIGNvbG9yIDogI2JiYjsKfSAvKiBUZXh0LldoaXRlc3BhY2UgKi8KLmNvZGVoaWxpdGUgLm1mIHsKICAgIGNvbG9yIDogIzY2NjsKfSAvKiBMaXRlcmFsLk51bWJlci5GbG9hdCAqLwouY29kZWhpbGl0ZSAubWggewogICAgY29sb3IgOiAjNjY2Owp9IC8qIExpdGVyYWwuTnVtYmVyLkhleCAqLwouY29kZWhpbGl0ZSAubWkgewogICAgY29sb3IgOiAjNjY2Owp9IC8qIExpdGVyYWwuTnVtYmVyLkludGVnZXIgKi8KLmNvZGVoaWxpdGUgLm1vIHsKICAgIGNvbG9yIDogIzY2NjsKfSAvKiBMaXRlcmFsLk51bWJlci5PY3QgKi8KLmNvZGVoaWxpdGUgLnNiIHsKICAgIGNvbG9yIDogI2I0NDsKfSAvKiBMaXRlcmFsLlN0cmluZy5CYWNrdGljayAqLwouY29kZWhpbGl0ZSAuc2MgewogICAgY29sb3IgOiAjYjQ0Owp9IC8qIExpdGVyYWwuU3RyaW5nLkNoYXIgKi8KLmNvZGVoaWxpdGUgLnNkIHsKICAgIGZvbnQtc3R5bGUgOiBpdGFsaWM7CgogICAgY29sb3IgOiAjYjQ0Owp9IC8qIExpdGVyYWwuU3RyaW5nLkRvYyAqLwouY29kZWhpbGl0ZSAuczIgewogICAgY29sb3IgOiAjYjQ0Owp9IC8qIExpdGVyYWwuU3RyaW5nLkRvdWJsZSAqLwouY29kZWhpbGl0ZSAuc2UgewogICAgZm9udC13ZWlnaHQgOiBib2xkOwoKICAgIGNvbG9yIDogI2I2MjsKfSAvKiBMaXRlcmFsLlN0cmluZy5Fc2NhcGUgKi8KLmNvZGVoaWxpdGUgLnNoIHsKICAgIGNvbG9yIDogI2I0NDsKfSAvKiBMaXRlcmFsLlN0cmluZy5IZXJlZG9jICovCi5jb2RlaGlsaXRlIC5zaSB7CiAgICBmb250LXdlaWdodCA6IGJvbGQ7CgogICAgY29sb3IgOiAjYjY4Owp9IC8qIExpdGVyYWwuU3RyaW5nLkludGVycG9sICovCi5jb2RlaGlsaXRlIC5zeCB7CiAgICBjb2xvciA6ICMwMDgwMDA7Cn0gLyogTGl0ZXJhbC5TdHJpbmcuT3RoZXIgKi8KLmNvZGVoaWxpdGUgLnNyIHsKICAgIGNvbG9yIDogI2I2ODsKfSAvKiBMaXRlcmFsLlN0cmluZy5SZWdleCAqLwouY29kZWhpbGl0ZSAuczEgewogICAgY29sb3IgOiAjYjQ0Owp9IC8qIExpdGVyYWwuU3RyaW5nLlNpbmdsZSAqLwouY29kZWhpbGl0ZSAuc3MgewogICAgY29sb3IgOiAjYjg4NjBiOwp9IC8qIExpdGVyYWwuU3RyaW5nLlN5bWJvbCAqLwouY29kZWhpbGl0ZSAuYnAgewogICAgY29sb3IgOiAjYTJmOwp9IC8qIE5hbWUuQnVpbHRpbi5Qc2V1ZG8gKi8KLmNvZGVoaWxpdGUgLnZjIHsKICAgIGNvbG9yIDogI2I4ODYwYjsKfSAvKiBOYW1lLlZhcmlhYmxlLkNsYXNzICovCi5jb2RlaGlsaXRlIC52ZyB7CiAgICBjb2xvciA6ICNiODg2MGI7Cn0gLyogTmFtZS5WYXJpYWJsZS5HbG9iYWwgKi8KLmNvZGVoaWxpdGUgLnZpIHsKICAgIGNvbG9yIDogI2I4ODYwYjsKfSAvKiBOYW1lLlZhcmlhYmxlLkluc3RhbmNlICovCi5jb2RlaGlsaXRlIC5pbCB7CiAgICBjb2xvciA6ICM2NjY7Cn0gLyogTGl0ZXJhbC5OdW1iZXIuSW50ZWdlci5Mb25nICov">
 </head>
 <body>
-    <div class="content">
-        
+    <div class="function-demo">
+        <img src="//qiniu.cdswyda.com/images/javascript_object_layout.jpg" alt="测试图片" ><br>
+        <label for="">录入文本： <input type="text" title="录入文本"> </label><br>
+        <label> 输入密码：</label><input type="password" title="测试密码"></label>
     </div>
-    <script src="./speak.js"></script>
+    
+
+<div class="post">
+    
+    <div class="post_body content">
+        <h1 id="toc_0">网页中文本朗读功能开发实现分享</h1>
+
+<p class="md_block">
+    <span class="md_line">前几天完成了一个需求，在网页中完成鼠标指向哪里，就用语音读出所指的文本。如果是按钮、链接、文本输入框，则还还要给出是什么的提醒。同时针对大段的文本，不能整段的去读，要按照标点符号进行断句处理。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">重点当然就是先获取到当前标签上的文本，再把文本转化成语音即可。</span>
+</p>
+
+
+<h2 id="toc_1">标签朗读</h2>
+
+<p class="md_block">
+    <span class="md_line">这个很简单了，只用根据当前是什么标签，给出提示即可。</span>
+</p>
+
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="c1">// 标签朗读文本</span>
+<span class="kd">var</span> <span class="nx">tagTextConfig</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;a&#39;</span><span class="o">:</span> <span class="s1">&#39;链接&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;input[text]&#39;</span><span class="o">:</span> <span class="s1">&#39;文本输入框&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;input[password]&#39;</span><span class="o">:</span> <span class="s1">&#39;密码输入框&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;button&#39;</span><span class="o">:</span> <span class="s1">&#39;按钮&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;img&#39;</span><span class="o">:</span> <span class="s1">&#39;图片&#39;</span>
+<span class="p">};</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">还有需要朗读的标签，继续再添加即可。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">然后根据标签，返回前缀文本即可。</span>
+</p>
+
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * 获取标签朗读文本</span>
+<span class="cm"> * @param {HTMLElement} el 要处理的HTMLElement</span>
+<span class="cm"> * @returns {String}   朗读文本</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">getTagText</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">el</span><span class="p">)</span> <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">tagName</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">tagName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+
+    <span class="c1">// 处理input等多属性元素</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">tagName</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="s1">&#39;input&#39;</span><span class="o">:</span>
+            <span class="nx">tagName</span> <span class="o">+=</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">type</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 标签的功能提醒和作用应该有间隔，因此在最后加入一个空格</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">tagTextConfig</span><span class="p">[</span><span class="nx">tagName</span><span class="p">]</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">获取完整的朗读文本就更简单了，先取标签的功能提醒，再取标签的文本即可。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">文本内容优先取 <code>title</code> 其次 <code>alt</code> 最后 <code>innerText</code>。</span>
+</p>
+
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * 获取完整朗读文本</span>
+<span class="cm"> * @param {HTMLElement} el 要处理的HTMLElement</span>
+<span class="cm"> * @returns {String}   朗读文本</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">getText</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">el</span><span class="p">)</span> <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nx">getTagText</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">title</span> <span class="o">||</span> <span class="nx">el</span><span class="p">.</span><span class="nx">alt</span> <span class="o">||</span> <span class="nx">el</span><span class="p">.</span><span class="nx">innerText</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">这样就可以获取到一个标签的功能提醒和内容的全部带朗读文本了。</span>
+</p>
+
+
+<h2 id="toc_2">正文分隔</h2>
+
+<p class="md_block">
+    <span class="md_line">接下来要处理的就是正文分隔了，在这个过程中，踩了不少坑，走了不少弯路，好好记录一下。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">首先准备了正文分隔的配置：</span>
+</p>
+
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="c1">// 正文拆分配置</span>
+<span class="kd">var</span> <span class="nx">splitConfig</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// 内容分段标签名称</span>
+    <span class="nx">unitTag</span><span class="o">:</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span>
+    <span class="c1">// 正文中分隔正则表达式</span>
+    <span class="nx">splitReg</span><span class="o">:</span> <span class="sr">/[,;，；。]/g</span><span class="p">,</span>
+    <span class="c1">// 包裹标签名</span>
+    <span class="nx">wrapTag</span><span class="o">:</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span>
+    <span class="c1">// 包裹标签类名</span>
+    <span class="nx">wrapCls</span><span class="o">:</span> <span class="s1">&#39;speak-lable&#39;</span><span class="p">,</span>
+    <span class="c1">// 高亮样式名和样式</span>
+    <span class="nx">hightlightCls</span><span class="o">:</span> <span class="s1">&#39;speak-help-hightlight&#39;</span><span class="p">,</span>
+    <span class="nx">hightStyle</span><span class="o">:</span> <span class="s1">&#39;background: #000!important; color: #fff!important&#39;</span>
+<span class="p">};</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">最开始想的就是直接按照正文中的分隔标点符号进行分隔就好了呀。</span>
+</p>
+
+
+<p class="md_block md_has_block_below md_has_block_below_ol">
+    <span class="md_line">想法如下：</span>
+</p>
+
+
+<ol>
+<li>获取段落全部文本</li>
+<li>使用 <code>split(分隔正则表达式)</code> 方法将正文按照标点符号分隔成小段</li>
+<li>每个小段用标签包裹放回去即可</li>
+</ol>
+
+<p class="md_block">
+    <span class="md_line">然而理想很丰满，现实很骨感。</span>
+</p>
+
+
+<p class="md_block md_has_block_below md_has_block_below_ol">
+    <span class="md_line">两个大坑如下：</span>
+</p>
+
+
+<ol>
+<li><code>split</code> 方法进行分隔，分隔后分隔字符就丢了，也就是说把原文的一些标点符号给弄丢了。</li>
+<li>如果段落内还存在其他标签，而这个标签内部也正好存在待分隔的标点符号，那包裹分段标签时直接破换了原标签的完整性。</li>
+</ol>
+
+<p class="md_block">
+    <span class="md_line">关于第一个问题，丢失标点的符号，考虑过逐个标点来进行和替换 <code>split</code> 分隔方法为逐个字符循环来做。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">前者问题是原本一次完成的工作分成了多次，效率太低。第二种感觉效率更低了，分隔本来是很稀疏的，但是却要变成逐个字符出判断处理，更关键的是，分隔标点的位置要插入包裹标签，会导致字符串长度变化，还要处理下标索引。代码是机器跑的，或许不会觉得烦，但是我真的觉得好烦。如果这么干，或许以后哪个AI或者同事看到这样的代码，说不定会说“这真是个傻xxxx”。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">第二个问题想过很多办法来补救，如先使用正则匹配捕获内容中成对的标签，对标签内部的分隔先处理一遍，然后再处理整个的。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">想不明白问题二的，可参考一下待分隔的段落:</span>
+</p>
+
+<table class="codehilite code_lang_html with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite code_lang_html with_lines  highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>这是一段测试文本，这里有个链接。<span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span>您好，可以点击此处进行跳转<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>还有其他内容其他内容容其他内容容其他内容，容其他内容。<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">如先使用<code>/&lt;((\w+?)&gt;)(.+?)&lt;\/\2(?=&gt;)/g</code> 正则，依次捕获段落内被标签包裹的内容，对标签内部的内容先处理。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">但是问题又来了，这么处理的都是字符串，在js中都是基本类型，这些操作进行的时候都是在复制的基础上进行的，要修改到原字符串里去，还得记录下原本的开始结束位置，再将新的插进去。繁，还是繁，但是已经比之前逐个字符去遍历的好，正则捕获中本来就有了匹配的索引，直接用即可，还能接受。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">但是这只是处理了段落内部标签的问题，段落内肯定还有很多文本是没有处理呢，怎么办？</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">正则匹配到了只是段落内标签的结果啊，外面的没有啊。哦，对，有匹配到的索引，上次匹配到的位置加上上次处理的长度，就是一段直接文本的开始。下一次匹配到的索引-1就是这段直接文本的结束。这只是匹配过程中的，还有首尾要单独处理。又回到烦的老路上去了。。。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">这么烦，一个段落分隔能这么繁琐，我不信！</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">突然想到了，有文本节点这么个东西，删繁就简嘛，正则先到边上去，直接处理段落的所有节点不就行了。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">文本节点则分隔直接包裹，标签节点则对内容进行包裹，这种情况下处理的直接是dom，更省事。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">文本节点里放标签？这是在开玩笑么，是也不是。文本节点里确实只能放文本，但是我把标签直接放进去，它会自动转义，那最后再替换出来不就行了。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">好了，方案终于有了，而且这个方案逻辑多简单，代码逻辑自然也不会烦。</span>
+</p>
+
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * 正文内容分段处理</span>
+<span class="cm"> * @param {jQueryObject/HTMLElement/String}  $content 要处理的正文jQ对象或HTMLElement或其对应选择器</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">splitConent</span><span class="p">(</span><span class="nx">$content</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$content</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">$content</span><span class="p">);</span>
+
+    <span class="nx">$content</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">unitTag</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">$item</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">item</span><span class="p">),</span>
+            <span class="nx">text</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">trim</span><span class="p">(</span><span class="nx">$item</span><span class="p">.</span><span class="nx">text</span><span class="p">());</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">text</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+        <span class="kd">var</span> <span class="nx">nodes</span> <span class="o">=</span> <span class="nx">$item</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">childNodes</span><span class="p">;</span>
+
+        <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">nodes</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">switch</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">nodeType</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">case</span> <span class="mi">3</span><span class="o">:</span>
+                    <span class="c1">// text 节点</span>
+                    <span class="c1">// 由于是文本节点，标签被转义了，后续再转回来</span>
+                    <span class="nx">node</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span> <span class="o">+</span>
+                        <span class="nx">node</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">splitReg</span><span class="p">,</span> <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;$&amp;&lt;&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span> <span class="o">+</span>
+                        <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+                    <span class="c1">// 元素节点</span>
+                    <span class="kd">var</span> <span class="nx">innerHtml</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">,</span>
+                        <span class="nx">start</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                        <span class="nx">end</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+                    <span class="c1">// 如果内部还有直接标签，先去掉</span>
+                    <span class="kd">var</span> <span class="nx">startResult</span> <span class="o">=</span> <span class="sr">/^&lt;\w+?&gt;/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">innerHtml</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">startResult</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">start</span> <span class="o">=</span> <span class="nx">startResult</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+                        <span class="nx">innerHtml</span> <span class="o">=</span> <span class="nx">innerHtml</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="nx">start</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+                    <span class="p">}</span>
+                    <span class="kd">var</span> <span class="nx">endResult</span> <span class="o">=</span> <span class="sr">/&lt;\/\w+?&gt;$/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">innerHtml</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">endResult</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">end</span> <span class="o">=</span> <span class="nx">endResult</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+                        <span class="nx">innerHtml</span> <span class="o">=</span> <span class="nx">innerHtml</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">endResult</span><span class="p">.</span><span class="nx">index</span><span class="p">);</span>
+                    <span class="p">}</span>
+                    <span class="c1">// 更新内部内容</span>
+                    <span class="nx">node</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">start</span> <span class="o">+</span>
+                        <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span> <span class="o">+</span>
+                        <span class="nx">innerHtml</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">splitReg</span><span class="p">,</span> <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;$&amp;&lt;&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span> <span class="o">+</span>
+                        <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span> <span class="o">+</span>
+                        <span class="nx">end</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">default</span><span class="o">:</span>
+                    <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+
+        <span class="c1">// 处理文本节点中被转义的html标签</span>
+        <span class="nx">$item</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">$item</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">innerHTML</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;&amp;lt;&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&amp;gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">),</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;&amp;lt;/&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&amp;gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">),</span> <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">);</span>
+        <span class="nx">$item</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapTag</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapCls</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">上面代码中最后对文本节点中被转义的包裹标签替换似乎有点麻烦，但是没办法，ES5之前JavaScript并不支持正则的后行断言（也就是正则表达式中“后顾”）。所以没办法对包裹标签前后的 <code>&amp;lt;</code> 和 <code>&amp;gt;</code> 进行精准替换，只能连同标签名一起替换。</span>
+</p>
+
+
+<h2 id="toc_3">事件处理</h2>
+
+<p class="md_block">
+    <span class="md_line">在上面完成了文本获取和段落分隔，下面要做的就是鼠标移动上去时获取文本触发朗读即可，移开时停止朗读即可。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">鼠标移动，只读一次，基于这两点原因，使用 <code>mouseenter</code> 和 <code>mouseleave</code> 事件来完成。</span>
+</p>
+
+
+<p class="md_block md_has_block_below md_has_block_below_ol">
+    <span class="md_line">原因：</span>
+</p>
+
+
+<ol>
+<li>不冒泡，不会触发父元素的再次朗读</li>
+<li>不重复触发，一个元素内移动时不会重复触发。</li>
+</ol>
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * 在页面上写入高亮样式</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">createStyle</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;speak-light-style&#39;</span><span class="p">))</span> <span class="k">return</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">style</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">);</span>
+    <span class="nx">style</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s1">&#39;speak-light-style&#39;</span><span class="p">;</span>
+    <span class="nx">style</span><span class="p">.</span><span class="nx">innerText</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">hightlightCls</span> <span class="o">+</span> <span class="s1">&#39;{&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">hightStyle</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">style</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// 非正文需要朗读的标签 逗号分隔</span>
+<span class="kd">var</span> <span class="nx">speakTags</span> <span class="o">=</span> <span class="s1">&#39;a, p, span, h1, h2, h3, h4, h5, h6, img, input, button&#39;</span><span class="p">;</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mouseenter.speak-help&#39;</span><span class="p">,</span> <span class="nx">speakTags</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+
+    <span class="c1">// 排除段落内的</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">$target</span><span class="p">.</span><span class="nx">parents</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapCls</span><span class="p">).</span><span class="nx">length</span> <span class="o">||</span> <span class="nx">$target</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapCls</span><span class="p">).</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 图片样式单独处理 其他样式统一处理</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">nodeName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">===</span> <span class="s1">&#39;img&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$target</span><span class="p">.</span><span class="nx">css</span><span class="p">({</span>
+            <span class="nx">border</span><span class="o">:</span> <span class="s1">&#39;2px solid #000&#39;</span>
+        <span class="p">});</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">$target</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">hightlightCls</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 开始朗读</span>
+    <span class="nx">speakText</span><span class="p">(</span><span class="nx">getText</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">));</span>
+
+<span class="p">}).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mouseleave.speak-help&#39;</span><span class="p">,</span> <span class="nx">speakTags</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">$target</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapCls</span><span class="p">).</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 图片样式</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">nodeName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">===</span> <span class="s1">&#39;img&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$target</span><span class="p">.</span><span class="nx">css</span><span class="p">({</span>
+            <span class="nx">border</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span>
+        <span class="p">});</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">$target</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">hightlightCls</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 停止语音</span>
+    <span class="nx">stopSpeak</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="c1">// 段落内文本朗读</span>
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mouseenter.speak-help&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapCls</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">hightlightCls</span><span class="p">);</span>
+
+    <span class="c1">// 开始朗读</span>
+    <span class="nx">speakText</span><span class="p">(</span><span class="nx">getText</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+<span class="p">}).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;mouseleave.speak-help&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">splitConfig</span><span class="p">.</span><span class="nx">wrapCls</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">splitConfig</span><span class="p">.</span><span class="nx">hightlightCls</span><span class="p">);</span>
+
+    <span class="c1">// 停止语音</span>
+    <span class="nx">stopSpeak</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">注意要把针对段落的语音处理和其他地方的分开。为什么？ 因为段落是个块级元素，鼠标移入段落中的空白时，如：段落前后空白、首行缩进、末行剩余空白等，是不应该触发朗读的，如果不阻止掉，进行这些区域将直接触发整段文字的朗读，失去了我们对段落文本内分隔的意义，而且，无论什么方式转化语音都是要时间的，大段内容可能需要较长时间，影响语音输出的体验。</span>
+</p>
+
+
+<h2 id="toc_4">文本合成语音</h2>
+
+<p class="md_block">
+    <span class="md_line">上面我们是直接使用了 <code>speakText(text)</code> 和 <code>stopSpeak()</code> 两个方法来触发语音的朗读和停止。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">我们来看下如何实现这个两个功能。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">其实现代浏览器默认已经提供了上面功能：</span>
+</p>
+
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="kd">var</span> <span class="nx">speechSU</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">SpeechSynthesisUtterance</span><span class="p">();</span>
+<span class="nx">speechSU</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="s1">&#39;你好，世界！&#39;</span><span class="p">;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">speechSynthesis</span><span class="p">.</span><span class="nx">speak</span><span class="p">(</span><span class="nx">speechSU</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">复制到浏览器控制台看看能不能听到声音呢？(需要Chrome 33+、Firefox 49+ 或 IE-Edge)</span>
+</p>
+
+
+<p class="md_block md_has_block_below md_has_block_below_ul">
+    <span class="md_line">利用一下两个API即可：</span>
+</p>
+
+
+<ul>
+<li><code>SpeechSynthesisUtterance</code> 用于语音合成
+
+<ul>
+<li><code>lang</code> : 语言 Gets and sets the language of the utterance. </li>
+<li><code>pitch</code> : 音高 Gets and sets the pitch at which the utterance will be spoken at.</li>
+<li><code>rate</code> : 语速 Gets and sets the speed at which the utterance will be spoken at.</li>
+<li><code>text</code> : 文本 Gets and sets the text that will be synthesised when the utterance is spoken.</li>
+<li><code>voice</code> : 声音 Gets and sets the voice that will be used to speak the utterance.</li>
+<li><code>volume</code> : 音量 Gets and sets the volume that the utterance will be spoken at.</li>
+<li><code>onboundary</code> : 单词或句子边界触发，即分隔处触发 Fired when the spoken utterance reaches a word or sentence boundary.</li>
+<li><code>onend</code> : 结束时触发 Fired when the utterance has finished being spoken.</li>
+<li><code>onerror</code> : 错误时触发 Fired when an error occurs that prevents the utterance from being succesfully spoken.</li>
+<li><code>onmark</code> : Fired when the spoken utterance reaches a named SSML &quot;mark&quot; tag.</li>
+<li><code>onpause</code> : 暂停时触发 Fired when the utterance is paused part way through.</li>
+<li><code>onresume</code> : 重新播放时触发 Fired when a paused utterance is resumed.</li>
+<li><code>onstart</code> : 开始时触发 Fired when the utterance has begun to be spoken.</li>
+</ul></li>
+<li><code>SpeechSynthesis</code> : 用于朗读
+
+<ul>
+<li><code>paused</code> : <strong>Read only</strong> 是否暂停 A Boolean that returns true if the SpeechSynthesis object is in a paused state.</li>
+<li><code>pending</code> : <strong>Read only</strong> 是否处理中 A Boolean that returns true if the utterance queue contains as-yet-unspoken utterances.</li>
+<li><code>speaking</code> : <strong>Read only</strong> 是否朗读中 A Boolean that returns true if an utterance is currently in the process of being spoken — even if SpeechSynthesis is in a paused state.</li>
+<li><code>onvoiceschanged</code> : 声音变化时触发</li>
+<li><code>cancel()</code> : 情况待朗读队列 Removes all utterances from the utterance queue.</li>
+<li><code>getVoices()</code> : 获取浏览器支持的语音包列表 Returns a list of SpeechSynthesisVoice objects representing all the available voices on the current device.</li>
+<li><code>pause()</code> : 暂停 Puts the SpeechSynthesis object into a paused state.</li>
+<li><code>resume()</code> : 重新开始 Puts the SpeechSynthesis object into a non-paused state: resumes it if it was already paused.</li>
+<li><code>speak()</code> : 读合成的语音，参数必须为<code>SpeechSynthesisUtterance</code>的实例 Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken.</li>
+</ul></li>
+</ul>
+
+<p class="md_block md_has_block_below md_has_block_below_ul">
+    <span class="md_line">详细api和说明可参考:</span>
+</p>
+
+
+<ul>
+<li><a class="md_compiled" href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance">MDN - SpeechSynthesisUtterance</a></li>
+<li><a class="md_compiled" href="https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis">MDN - SpeechSynthesis</a></li>
+</ul>
+
+<p class="md_block">
+    <span class="md_line">那么上面的两个方法可以写为：</span>
+</p>
+
+<table class="codehilite code_lang_js with_lines  highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="codehilite code_lang_js with_lines  highlight"><pre><span></span><span class="kd">var</span> <span class="nx">speaker</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">SpeechSynthesisUtterance</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">speakTimer</span><span class="p">,</span>
+    <span class="nx">stopTimer</span><span class="p">;</span>
+
+<span class="c1">// 开始朗读</span>
+<span class="kd">function</span> <span class="nx">speakText</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">speakTimer</span><span class="p">);</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">speechSynthesis</span><span class="p">.</span><span class="nx">cancel</span><span class="p">();</span>
+    <span class="nx">speakTimer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">speaker</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">text</span><span class="p">;</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">speechSynthesis</span><span class="p">.</span><span class="nx">speak</span><span class="p">(</span><span class="nx">speaker</span><span class="p">);</span>
+    <span class="p">},</span> <span class="mi">200</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// 停止朗读</span>
+<span class="kd">function</span> <span class="nx">stopSpeak</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">stopTimer</span><span class="p">);</span>
+    <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">speakTimer</span><span class="p">);</span>
+    <span class="nx">stopTimer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">speechSynthesis</span><span class="p">.</span><span class="nx">cancel</span><span class="p">();</span>
+    <span class="p">},</span> <span class="mi">20</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+<!--block_code_end-->
+<p class="md_block">
+    <span class="md_line">因为语音合成本来是个异步的操作，因此在过程中进行以上处理。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">现代浏览器已经内置了这个功能，两个API接口兼容性如下：</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">Feature | Chrome | Edge | Firefox (Gecko) | Internet Explorer | Opera | Safari<br /></span>
+    <span class="md_line">-- | -- | -- | -- | -- | -- | --<br /></span>
+    <span class="md_line">(WebKit) Basic | support 33 | (Yes) | 49 (49) | No support | ? | 7</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">如果要兼容其他浏览器或者需要一种完美兼容的解决方案，可能就需要服务端完成了，根据给定文本，返回响应语音即可，<a class="md_compiled" href="http://yuyin.baidu.com/docs">百度语音 http://yuyin.baidu.com/docs</a>就提供这样的服务。</span>
+</p>
+
+
+<p class="md_block">
+    <span class="md_line">以上DEMO请参考: <a class="md_compiled" href="https://cdswyda.github.io/show/demo/speaker/"> cdswyda - 网页文本朗读实现 (https://cdswyda.github.io/show/demo/speaker/)</a></span>
+</p>
+    </div>
+</div>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"></script>
+    <script src="./speaker.js"></script>
 </body>
 </html>

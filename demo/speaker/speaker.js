@@ -227,10 +227,10 @@
 
     function stopSpeak() {
         clearTimeout(stopTimer);
-        clearTimeout(speakTimer);
+        // clearTimeout(speakTimer);
         stopTimer = setTimeout(function () {
             window.speechSynthesis.cancel();
-        }, 20);
+        }, 100);
     }
 
     /**
@@ -239,6 +239,7 @@
     // 创建样式
     createStyle();
     // 分隔正文内容
+    // 指定正文区域进行大段文本处理
     splitConent($('.content'));
     // 初始化事件
     initEvent();
