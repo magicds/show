@@ -8,6 +8,8 @@
 
 ## demo
 
+- [网页文本朗读实现](https://cdswyda.github.io/show/demo/speaker/)
+
 - [通过jQuery递延对象的then来进行传递](https://cdswyda.github.io/show/demo/jqueryPassOnByThen/test.html)
 
 - [纯css实现菜单展开收起](https://cdswyda.github.io/show/demo/css-menu/menu.html)
