@@ -139,22 +139,22 @@
      * 在页面上写入高亮样式
      */
     // 写入高亮样式
-function createStyle() {
-    if (document.getElementById('speak-light-style')) return;
+    function createStyle() {
+        if (document.getElementById('speak-light-style')) return;
 
-    var style = document.createElement('style');
+        var style = document.createElement('style');
 
-    // IE8下style无法直接写入
-    style.setAttribute('id','speak-light-style');
-    if ('styleSheet' in style) {
-        style.setAttribute('type','text/css');
-        style.styleSheet.cssText = '.' + splitConfig.hightlightCls + '{' + splitConfig.hightStyle + '}';
-    }else {
-        style.innerText = '.' + splitConfig.hightlightCls + '{' + splitConfig.hightStyle + '}';
+        // IE8下style无法直接写入
+        style.setAttribute('id', 'speak-light-style');
+        if ('styleSheet' in style) {
+            style.setAttribute('type', 'text/css');
+            style.styleSheet.cssText = '.' + splitConfig.hightlightCls + '{' + splitConfig.hightStyle + '}';
+        } else {
+            style.innerText = '.' + splitConfig.hightlightCls + '{' + splitConfig.hightStyle + '}';
+        }
+
+        document.getElementsByTagName('head')[0].appendChild(style);
     }
-    
-    document.getElementsByTagName('head')[0].appendChild(style);
-}
 
     function initEvent() {
         $(document).on('mouseenter.speak-help', speakTags, function (e) {
