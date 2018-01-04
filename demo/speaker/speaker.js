@@ -138,14 +138,23 @@
     /**
      * 在页面上写入高亮样式
      */
-    function createStyle() {
-        if (document.getElementById('speak-light-style')) return;
+    // 写入高亮样式
+function createStyle() {
+    if (document.getElementById('speak-light-style')) return;
 
-        var style = document.createElement('style');
-        style.id = 'speak-light-style';
+    var style = document.createElement('style');
+
+    // IE8下style无法直接写入
+    style.setAttribute('id','speak-light-style');
+    if ('styleSheet' in style) {
+        style.setAttribute('type','text/css');
+        style.styleSheet.cssText = '.' + splitConfig.hightlightCls + '{' + splitConfig.hightStyle + '}';
+    }else {
         style.innerText = '.' + splitConfig.hightlightCls + '{' + splitConfig.hightStyle + '}';
-        document.getElementsByTagName('head')[0].appendChild(style);
     }
+    
+    document.getElementsByTagName('head')[0].appendChild(style);
+}
 
     function initEvent() {
         $(document).on('mouseenter.speak-help', speakTags, function (e) {
