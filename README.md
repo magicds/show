@@ -1,6 +1,7 @@
 # show
 
 [![GitHub issues](https://img.shields.io/github/issues/cdswyda/show.svg)](https://github.com/cdswyda/show/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/cdswyda/show.svg)](https://github.com/cdswyda/show/pulls)
 [![GitHub forks](https://img.shields.io/github/forks/cdswyda/show.svg)](https://github.com/cdswyda/show/network)
 [![GitHub stars](https://img.shields.io/github/stars/cdswyda/show.svg)](https://github.com/cdswyda/show/stargazers)
 [![GitHub license](https://img.shields.io/github/license/cdswyda/show.svg)](https://github.com/cdswyda/show/blob/master/LICENSE)
