@@ -1,5 +1,11 @@
 # show
 
+[![GitHub issues](https://img.shields.io/github/issues/cdswyda/show.svg)](https://github.com/cdswyda/show/issues)
+[![GitHub forks](https://img.shields.io/github/forks/cdswyda/show.svg)](https://github.com/cdswyda/show/network)
+[![GitHub stars](https://img.shields.io/github/stars/cdswyda/show.svg)](https://github.com/cdswyda/show/stargazers)
+[![GitHub license](https://img.shields.io/github/license/cdswyda/show.svg)](https://github.com/cdswyda/show/blob/master/LICENSE)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/cdswyda/show.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fcdswyda%2Fshow)
+
 ## 小工具
 
 - [任意内容转化为base64](https://cdswyda.github.io/show/tools/anything2base64/)
