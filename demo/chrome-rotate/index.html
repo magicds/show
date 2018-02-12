@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./demo.css">
+</head>
+
+<body>
+  <div class="nav-container" id="demo1">
+    <div class="nav-item one"></div>
+    <div class="nav-item two"></div>
+    <div class="nav-item three"></div>
+    <div class="nav-mask-three"></div>
+    <div class="nav-center"></div>
+  </div>
+
+  <div class="nav-container" style="margin-top:15px;" id="demo2">
+    <div class="nav-item one"></div>
+    <div class="nav-item two"></div>
+    <div class="nav-item three"></div>
+    <div class="nav-mask-three"></div>
+    <div class="nav-center"></div>
+  </div>
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    var $container = $('#demo1');
+    $container.on('click', '.nav-item', function (e) {
+      var $this = $(this);
+
+      if ($this.hasClass('active')) return;
+      $this.addClass('active').siblings().removeClass('active');
+
+      var _this = this,
+        idx = $this.index();
+
+      $container.css('transform', 'rotate(' + idx * 120 + 'deg)');
+    }).on('click', '.nav-mask-three', function (e) {
+      $(this).prev().trigger('click');
+    });
+
+    // 始终像一个方向旋转
+    var $container2 = $('#demo2');
+    $container2.on('click', '.nav-item', function (e) {
+      var $this = $(this);
+
+      if ($this.hasClass('active')) return;
+      $this.addClass('active').siblings().removeClass('active');
+
+      var _this = this,
+        idx = $this.index();
+
+      var oldDeg = parseInt($container2[0].style.transform.substr(7), 10) || 0;
+      var aimDeg = idx * 120;
+      var newDeg = aimDeg;
+
+      var n = oldDeg / 360 >>> 0;
+
+      console.log(oldDeg, aimDeg);
+      if (oldDeg > newDeg) {
+        do {
+          newDeg = 360 * n + aimDeg;
+          n++;
+        } while (newDeg < oldDeg)
+      }
+
+      console.log(newDeg);
+
+      $container2.css('transform', 'rotate(' + newDeg + 'deg)');
+    }).on('click', '.nav-mask-three', function (e) {
+      $(this).prev().trigger('click');
+    });
+
+  </script>
+</body>
+
+</html>
