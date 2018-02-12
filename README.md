@@ -15,6 +15,8 @@
 
 ## demo
 
+- [chrome图标点击旋转效果](https://cdswyda.github.io/show/demo/chrome-rotate/)
+
 - [网页文本朗读实现](https://cdswyda.github.io/show/demo/speaker/)
 
 - [通过jQuery递延对象的then来进行传递](https://cdswyda.github.io/show/demo/jqueryPassOnByThen/test.html)
