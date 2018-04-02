@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="step" style="margin:10px;"></div>
+
+    <div id="test" style="padding:20px;">
+        <button onclick="nextStep()">下一步 $step.nextStep()</button>
+        <button onclick="prevStep()">上一步 $step.prevStep()</button>
+        <button onclick="getActive()">获取当前步骤信息$step.getActiveSetp()</button>
+        <br> 输入步骤索引：
+        <input id="aimIndex" type="text">
+        <input type="button" value="go" onclick="toStep()">
+    </div>
+    <script src="../../../js/lib/jquery-1.11.1.min.js"></script>
+    <script src="./flow.js"></script>
+    <script>
+        var $step = $("#step");
+        $step.initStep({
+            title: ["项目注册", "初步发包", "委托备案", "资审场地预约", "资审文件备案", "开评标场地预约", "招标文件",
+                "这个步骤名称很长很长很长很长很长很长很长非常长非常长非常长非常长非常长非常非常长", "招标公告", "开评情况", "评标情况",
+                "中标候选人公示", "中标结果公告",
+                "合同备案"
+            ],
+            lineLimit: 5
+        });
+        // initStep(opt) 参数说明：
+        // {
+        //     title: [], // 流程序列集合
+        //     lineLimit: 8, // 每行显示的数目
+        //     duration: 400, // 动画时间
+        //     injectStyle: true // 是否以style注入css（默认为true，可无需手动引入css文件）
+        // }
+        $step.toStep(12);
+
+        // test
+        function nextStep() {
+            $step.nextStep();
+        }
+
+        function prevStep() {
+            $step.prevStep();
+        }
+
+        function toStep(n) {
+            $step.toStep(parseInt($('#aimIndex').val(), 10))
+        }
+
+        function getActive() {
+            alert(JSON.stringify($step.getActiveSetp(), 0, 4));
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+.flow-line-wrap {
+    width: 100%;
+    position: relative;
+    padding-top: 40px;
+    /* font-size: 14px; */
+    line-height: 26px;
+}
+
+.flow-line-wrap:after,
+.flow-item-list:after {
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.flow-progress {
+    position: absolute;
+    top: 20px;
+    height: 10px;
+    width: 100%;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    background: #ddd;
+    z-index: -2;
+}
+
+.flow-item {
+    margin-bottom: 30px;
+    float: left;
+    padding-bottom: 20px;
+    text-align: center;
+    /* position: relative; */
+}
+
+.flow-line-wrap.reverse .flow-item {
+    float: right;
+}
+.flow-item-content {
+    padding: 10px 10px 0;
+}
+.flow-item-info {
+    position: absolute;
+    top: 10px;
+    height: 20px;
+    text-align: center;
+}
+
+.flow-item-progress {
+    position: absolute;
+    left: 0;
+    width: 0px;
+    top: 10px;
+    height: 10px;
+    background: #38c538;
+    z-index: -1;
+}
+
+.flow-line-wrap.reverse .flow-item-progress {
+    left: auto;
+    right: 0;
+}
+
+/* .flow-item:first-child .flow-item-progress {
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.flow-item:last-child .flow-item-progress {
+    border-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.flow-line-wrap.reverse .flow-item:first-child .flow-item-progress {
+    border-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.flow-line-wrap.reverse .flow-item:last-child .flow-item-progress {
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+} */
+
+.flow-item-index {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    background: #ddd;
+    line-height: 30px;
+    text-align: center;
+}
+
+.flow-item.active .flow-item-index {
+    background: #38c538;
+    color: #fff;
+}
+
+.flow-progress-r {
+    background: #ddd;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    top: 25px;
+    z-index: -2;
+}
+
+.flow-line-wrap.active>.flow-progress-r {
+    background: #38c538;
+}
+
+.flow-line-wrap.reverse>.flow-progress-r {
+    right: auto;
+    left: 0;
+}
+.flow-line-wrap:last-child >.flow-progress-r {
+    display: none;
+}
