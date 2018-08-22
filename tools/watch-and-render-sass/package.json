@@ -1,0 +1,27 @@
+{
+  "name": "epoint-frame",
+  "version": "1.0.0",
+  "description": "The @types of epoint-frame and 实时监控编译框架目录中的sass文件",
+  "main": "none",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.3.5",
+    "@types/jqueryui": "^1.12.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-sass": "^4.0.1",
+    "map-stream": "^0.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "author": "cdswyda",
+  "license": "ISC"
+}
