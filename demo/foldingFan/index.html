@@ -2,79 +2,83 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <style>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
     * {
-        margin: 0;
-        padding: 0;
+      margin: 0;
+      padding: 0;
     }
+
     .container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        font-size: 0;
-        overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 0;
+      overflow: hidden;
     }
+
     #canvas {
-        background: #000;
+      background: #000;
+      width: 100%;
+      height: 100%;
     }
-    
+
     .imgbox {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        margin-top: 100px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      margin-top: 100px;
 
-        width: 107px;
-        height: 211px;
+      width: 107px;
+      height: 211px;
     }
-    
+
     .fanli {
-        position: absolute;
-        left: 0;
-        top: 0;
-        box-shadow: 2px 2px 15px #333;
-        border-radius: 5px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      box-shadow: 2px 2px 15px #333;
+      border-radius: 5px;
 
-        list-style: none;
+      list-style: none;
 
-        transform-origin: 30px 211px;        
-        transition-duration: 1s;
-        
+      transform-origin: 30px 211px;
+      transition-duration: 1s;
+
     }
-    
+
     img {
-        width: 107px;
-        height: 211px;
+      width: 107px;
+      height: 211px;
     }
-    </style>
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <canvas id="canvas"></canvas>
-        <ul id="imgbox" class="imgbox">
-            <li class="fanli"><img src="images/img1.png" alt=""></li>
-            <li class="fanli"><img src="images/img2.png" alt=""></li>
-            <li class="fanli"><img src="images/img3.png" alt=""></li>
-            <li class="fanli"><img src="images/img4.png" alt=""></li>
-            <li class="fanli"><img src="images/img5.png" alt=""></li>
-            <li class="fanli"><img src="images/img6.png" alt=""></li>
-            <li class="fanli"><img src="images/img7.png" alt=""></li>
-            <li class="fanli"><img src="images/img8.png" alt=""></li>
-            <li class="fanli"><img src="images/img9.png" alt=""></li>
-            <li class="fanli"><img src="images/img10.png" alt=""></li>
-            <li class="fanli"><img src="images/img11.png" alt=""></li>
-            <li class="fanli"><img src="images/img12.png" alt=""></li>
-        </ul>
-    </div>
-    <script src='img.js'></script>
+  <div class="container">
+    <canvas id="canvas"></canvas>
+    <ul id="imgbox" class="imgbox">
+      <li class="fanli"><img src="images/img1.png" alt=""></li>
+      <li class="fanli"><img src="images/img2.png" alt=""></li>
+      <li class="fanli"><img src="images/img3.png" alt=""></li>
+      <li class="fanli"><img src="images/img4.png" alt=""></li>
+      <li class="fanli"><img src="images/img5.png" alt=""></li>
+      <li class="fanli"><img src="images/img6.png" alt=""></li>
+      <li class="fanli"><img src="images/img7.png" alt=""></li>
+      <li class="fanli"><img src="images/img8.png" alt=""></li>
+      <li class="fanli"><img src="images/img9.png" alt=""></li>
+      <li class="fanli"><img src="images/img10.png" alt=""></li>
+      <li class="fanli"><img src="images/img11.png" alt=""></li>
+      <li class="fanli"><img src="images/img12.png" alt=""></li>
+    </ul>
+  </div>
+  <script src='img.js'></script>
 </body>
 
 </html>
