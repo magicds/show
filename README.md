@@ -12,6 +12,8 @@
 - [自动监控编译sass](./tools/watch-and-render-sass/)
 - [任意内容转化为base64](https://cdswyda.github.io/show/tools/anything2base64/)
 - [html转义](https://cdswyda.github.io/show/tools/escape-html-character/)
+- [pdf拆分](https://cdswyda.github.io/show/tools/pdfs/split.html)
+- [图片、pdf合成pdf](https://cdswyda.github.io/show/tools/pdfs/merge.html)
 
 ## demo
 
