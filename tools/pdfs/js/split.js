@@ -1,7 +1,7 @@
 // var canvas = document.getElementById('canvas');
-pdfjsLib.GlobalWorkerOptions.workerSrc = './js/pdfjs/build/pdf.worker.js';
-var result = document.getElementById('result');
-var dropArea = document.querySelector('#drop-area');
+pdfjsLib.GlobalWorkerOptions.workerSrc = "./js/pdfjs/build/pdf.worker.js";
+var result = document.getElementById("result");
+var dropArea = document.querySelector("#drop-area");
 
 class Output {
     /**
@@ -12,72 +12,86 @@ class Output {
     }
     log(str) {
         // this.el.insertAdjacentHTML('beforeend', `<p>${str}</p>`);
-        var p = document.createElement('p');
+        var p = document.createElement("p");
         p.innerText = str;
         this.el.appendChild(p);
         p.scrollIntoView();
     }
     clear() {
-        this.el.innerText = '';
+        this.el.innerText = "";
     }
 }
-var output = new Output(document.getElementById('output'));
+var output = new Output(document.getElementById("output"));
 
 // 拖拽
 dropArea.addEventListener(
-    'dragenter',
+    "dragenter",
     function () {
-        this.classList.add('drag-over');
+        this.classList.add("drag-over");
     },
     false
 );
 dropArea.addEventListener(
-    'dragleave',
+    "dragleave",
     function () {
-        this.classList.remove('drag-over');
+        this.classList.remove("drag-over");
     },
     false
 );
 dropArea.addEventListener(
-    'dragover',
+    "dragover",
     function (e) {
         e.stopPropagation();
         e.preventDefault();
 
-        e.dataTransfer.dropEffect = 'copy';
+        e.dataTransfer.dropEffect = "copy";
     },
     false
 );
+dropArea.addEventListener("click", function () {
+    document.getElementById("file-label").click();
+});
+function handleFile(file) {
+    console.log(file);
+    if (file.type !== "application/pdf" || !/\.pdf/i.test(file.name)) {
+        alert("请放入PDF文件");
+    }
+
+    // URL.createObjectURL(file)
+    splitPdf(URL.createObjectURL(file), file.name);
+}
 dropArea.addEventListener(
-    'drop',
+    "drop",
     function (e) {
         e.stopPropagation();
         e.preventDefault();
 
         var files = e.dataTransfer.files;
 
-        this.classList.remove('drag-over');
+        this.classList.remove("drag-over");
         if (!files || !files.length) {
             console.log(files);
             return;
         }
 
         var file = files[0];
-        console.log(file);
-        if (file.type !== 'application/pdf' || !/\.pdf/i.test(file.name)) {
-            alert('请放入PDF文件');
-        }
-
-        // URL.createObjectURL(file)
-        splitPdf(URL.createObjectURL(file), file.name);
+        handleFile(file);
     },
     false
 );
+document.querySelector("#file-picker").addEventListener("change", function (e) {
+    handleFile(this.files[0]);
+});
+document.getElementById("btn-reset").addEventListener("click", function (e) {
+    e.stopPropagation();
+    output.clear();
+    result.innerHTML = "";
+});
 
 // 分割pdf 通过地址
-function splitPdf(filePath, fileName = '') {
+function splitPdf(filePath, fileName = "") {
     output.clear();
-    result.innerHTML = '';
+    result.innerHTML = "";
 
     var loadingTask = pdfjsLib.getDocument({ url: filePath });
     output.log(`正在处理 【${fileName}】`);
@@ -89,7 +103,7 @@ function splitPdf(filePath, fileName = '') {
         output.log(`【${fileName}】 共有 ${pageCount} 页`);
 
         if (pageCount <= 1) {
-            return alert('此PDF无须分割');
+            return alert("此PDF无须分割");
         }
 
         for (var i = 0; i < pageCount; i++) {
@@ -106,23 +120,23 @@ function splitPdf(filePath, fileName = '') {
 
 function renderPage(page, index, fileName) {
     output.log(`正在显示第 ${index} 页`);
-    var viewport = page.getViewport({ scale: 1 });
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');
+    var viewport = page.getViewport({ scale: 2 });
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
     canvas.width = viewport.width;
     canvas.height = viewport.height;
 
-    var div = document.createElement('article');
-    var h = document.createElement('h2');
+    var div = document.createElement("article");
+    var h = document.createElement("h2");
     h.innerText = index;
     div.appendChild(h);
     div.appendChild(canvas);
 
-    fileName = fileName.replace(/\.pdf/i, '');
+    fileName = fileName.replace(/\.pdf/i, "");
 
     var renderTask = page.render({
         viewport: viewport,
-        canvasContext: ctx
+        canvasContext: ctx,
     });
 
     result.appendChild(div);
@@ -131,13 +145,13 @@ function renderPage(page, index, fileName) {
         setTimeout(() => {
             output.log(`正在分割第 ${index} 页`);
             var doc = new jspdf.jsPDF({
-                unit: 'pt',
-                format: 'A4' // A4 [595.28, 841.89]
+                unit: "pt",
+                format: "A4", // A4 [595.28, 841.89]
             });
             // (imageData, format, x, y, width, height, alias, compression, rotation)
             var height = (595.28 / canvas.width) * canvas.height;
             var width = 595.28;
-            doc.addImage(canvas, 'JPEG', 0, 0, width, height);
+            doc.addImage(canvas, "JPEG", 0, 0, width, height);
 
             doc.save(`${fileName} - 第${index}页.pdf`);
 
