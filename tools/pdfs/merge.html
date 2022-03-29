@@ -12,6 +12,7 @@
             flex-wrap: wrap;
             padding: 0;
             margin: 0;
+            border-radius: 4px;
         }
 
         #output {
@@ -19,6 +20,13 @@
             height: 200px;
             overflow: auto;
             padding-left: 4px;
+            color: #666;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        #output p {
+            margin: 4px 0;
         }
     </style>
     <style>
@@ -32,6 +40,9 @@
             font-size: 24px;
             margin-bottom: 10px;
             margin: 10px auto;
+            position: relative;
+            user-select: none;
+            border-radius: 4px;
         }
 
         .drop-area.drag-over {
@@ -39,15 +50,63 @@
             background-color: #ebf2f9;
         }
 
+        .drop-area.drag-over .btn-reset {
+            display: none;
+        }
+
+        .btn-reset {
+            background-color: transparent;
+            border: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #666;
+            cursor: pointer;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+        }
+
+        .btn-reset:hover {
+            color: #3280fc;
+        }
+
+        .btn-reset svg {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 5px;
+        }
+
         .toolbar {
             display: flex;
             margin: 10px auto;
+            justify-content: space-between;
+            line-height: 32px;
+        }
+
+        .main-btn {
+            border: 0;
+            background-color: #3280fc;
+            color: #fff;
+            height: 32px;
+            line-height: 32px;
+            padding: 0 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .main-btn:hover {
+            background-color: #1961d3;
         }
 
         .file-list {
             display: flex;
             margin: 10px 0;
             flex-wrap: wrap;
+            counter-reset: file-index;
         }
 
         .file-item {
@@ -60,8 +119,22 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            margin: 0 5px;
+            margin: 0 5px 10px;
             box-sizing: border-box;
+            border-radius: 4px;
+            position: relative;
+            counter-increment: file-index;
+        }
+
+        .file-item:before {
+            content: counter(file-index);
+            position: absolute;
+            top: 0;
+            left: 10px;
+        }
+
+        .file-item:hover {
+            box-shadow: 1px 1px 6px rgba(0, 0, 0, .3);
         }
 
         .sortable-ghost {
@@ -73,6 +146,10 @@
             max-height: 200px;
             display: block;
             margin: 0 auto;
+        }
+
+        .icon-pdf {
+            margin-top: 10px;
         }
 
         .file-name {
@@ -94,7 +171,12 @@
         <div class="drop-area" id="drop-area">
             请把文件拖拽至此
 
-            <button @click="reset">重置</button>
+            <button class="btn-reset" @click="reset">
+                <svg>
+                    <use xlink:href="#icon-reset"></use>
+                </svg> 点击重置
+            </button>
+            <label id="file-label" hidden><input type="file" id="file-picker" accept="image/*, application/pdf" multiple></label>
         </div>
         <div class="toolbar">
             <div hidden>
@@ -107,23 +189,40 @@
                 <label> <input type="checkbox" :checked="store.compress" onchange="store.compress = this.checked">启用图片压缩</label>
             </div>
 
-            <div>
+            <div hidden>
                 输出文件名: <input type="text" :value="store.outputName">
             </div>
-            <button @click="make">生成PDF</button>
+            <button class="main-btn" @click="make">生成PDF</button>
         </div>
         <div v-show="store.files.length">
             <p>拖拽调整文件顺序</p>
             <div id="list" class="file-list">
                 <div class="file-item" v-for="fileId of store.files" :data-id="fileId" :key="fileId">
-                    <span class="icon-pdf" v-if="isPdf(fileId)"></span>
-                    <img class="file-preview" :src="getPreview(fileId)">
+                    <svg class="icon-pdf" v-if="isPdf(fileId)">
+                        <use xlink:href="#icon-pdf"></use>
+                    </svg>
+                    <img v-if="isImg(fileId)" class="file-preview" :src="getPreview(fileId)">
                     <p class="file-name">{{store.fileMap[fileId].file.name}}</p>
                 </div>
             </div>
         </div>
     </div>
     <div id="output"></div>
+
+    <svg hidden>
+        <symbol id="icon-pdf" viewBox="0 0 1024 1024">
+            <path d="M704 0H192c-35.328 0-64 28.672-64 64v320h576c35.328 0 64 28.672 64 64v415.744c0 35.328-28.672 64-64 64H128v31.744c0 35.328 28.672 64 64 64h768c35.328 0 64-28.672 64-64v-640L704 0z" fill="#EAEAEA" p-id="1467"></path>
+            <path d="M704 0v256c0 35.328 28.672 64 64 64h256L704 0z" fill="#434854" p-id="1468"></path>
+            <path d="M768 320l256 256V320z" opacity=".1" p-id="1469"></path>
+            <path d="M704 832c0 17.92-14.336 31.744-31.744 31.744H31.744C13.824 863.744 0 849.408 0 832V480.256c0-17.92 14.336-31.744 31.744-31.744h640c17.92 0 31.744 14.336 31.744 31.744V832z" fill="#CD4050" p-id="1470"></path>
+            <path d="M192 544.256h-48.128c-8.704 0-15.872 7.168-15.872 15.872v192c0 8.704 7.168 15.872 15.872 15.872s15.872-7.168 15.872-15.872v-79.872h31.744c35.328 0 64-28.672 64-64s-28.16-64-63.488-64z m158.72 0c34.816 0 62.976 27.648 64 62.464v97.792c0 34.816-27.648 62.976-62.464 64h-49.664c-8.704 0-15.36-6.656-15.872-14.848V560.64c0-8.704 6.656-15.36 14.848-15.872h49.152z m227.328 0c8.704 0 15.872 7.168 15.872 15.872S586.752 576 578.048 576h-80.384v64h48.128c8.704 0 15.872 7.168 15.872 15.872s-7.168 15.872-15.872 15.872h-48.128v79.872c0 8.704-7.168 15.872-15.872 15.872s-15.872-7.168-15.872-15.872v-192c0-8.704 7.168-15.872 15.872-15.872h96.256zM350.72 576h-31.744v159.744h31.744c17.408 0 31.232-13.824 31.744-30.72v-97.28C382.976 590.336 368.64 576 350.72 576zM192 576c17.92 0 31.744 14.336 31.744 31.744S209.92 640 192 640h-31.744v-64H192z" fill="#FFFFFF" p-id="1471"></path>
+        </symbol>
+
+        <symbol id="icon-reset" viewBox="0 0 1024 1024">
+            <path d="M808 602.9c-23.6 164.2-181.8 285.5-358.7 248.3C336.9 827.6 245.6 736.8 222 624.4c-40.3-192 92-361.8 290.4-361.8v99.2l248-148.8-248-148.8v99.2c-248 0-438 222.4-388.6 476.5 30.1 154.7 155 279.4 309.7 309.5C668 995 875.6 833.9 906.2 616.1c4.2-29.6-19.7-55.8-49.5-55.8h0.1c-24.7 0-45.3 18.2-48.8 42.6z" p-id="2267" fill="currentColor"></path>
+        </symbol>
+
+    </svg>
 
     <script src="./js/pdfjs/build/pdf.js"></script>
     <script src="./js/jspdf.umd.js"></script>

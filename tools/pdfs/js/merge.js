@@ -41,6 +41,14 @@ function initDrop() {
         },
         false
     );
+    document
+        .querySelector(".btn-reset")
+        .addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+    dropArea.addEventListener("click", function () {
+        document.getElementById("file-label").click();
+    });
     dropArea.addEventListener(
         "dragover",
         function (e) {
@@ -51,6 +59,24 @@ function initDrop() {
         },
         false
     );
+    function handleFiles(files) {
+        console.log(files);
+        // store.files = [];
+        const idArr = [];
+        [].slice.call(files).forEach(function (file) {
+            if (file.type === "application/pdf" || /^image/.test(file.type)) {
+                const id = ++store.index;
+                console.log(id, file);
+                idArr.push(id);
+                store.fileMap[id] = { file };
+            } else {
+                alert(`您选择的 【${file.name}】 不支持，请选择图片或者pdf`);
+            }
+            // debugger
+        });
+        console.log(idArr);
+        store.files.push(...idArr);
+    }
     dropArea.addEventListener(
         "drop",
         function (e) {
@@ -64,31 +90,15 @@ function initDrop() {
                 console.log(files);
                 return;
             }
-
-            console.log(files);
-            // store.files = [];
-            const idArr = [];
-            [].slice.call(files).forEach(function (file) {
-                if (
-                    file.type === "application/pdf" ||
-                    /^image/.test(file.type)
-                ) {
-                    const id = ++store.index;
-                    console.log(id, file);
-                    idArr.push(id);
-                    store.fileMap[id] = { file };
-                } else {
-                    alert(
-                        `您选择的 【${file.name}】 不支持，请选择图片或者pdf`
-                    );
-                }
-                // debugger
-            });
-            console.log(idArr);
-            store.files.push(...idArr);
+            handleFiles(files);
         },
         false
     );
+    document
+        .querySelector("#file-picker")
+        .addEventListener("change", function (e) {
+            handleFiles(this.files);
+        });
 }
 
 var sortable = new Sortable(document.querySelector("#list"), {
@@ -120,7 +130,8 @@ var store = PetiteVue.reactive({
 
 var app = PetiteVue.createApp({
     store,
-    currentIndex: 0,
+    currentFileIndex: 0,
+    currentPageIndex: 0,
     mounted() {},
     isPdf(id) {
         const item = store.fileMap[id];
@@ -153,8 +164,9 @@ var app = PetiteVue.createApp({
             format: "A4", // A4 [595.28, 841.89]
             compress: true,
         });
-        this.currentIndex = 0;
-        this.appendFile(this.currentIndex, doc);
+        this.currentFileIndex = 0;
+        this.currentPageIndex = 0;
+        this.appendFile(this.currentFileIndex, doc);
 
         // 不能并行 需要串行
         // var promises = [];
@@ -185,16 +197,20 @@ var app = PetiteVue.createApp({
         //         });
         //     }
         // })
-        output.log(`${index + 1} 开始处理 ${file.file.name}`);
+        output.log(`开始处理【${file.file.name}】`);
         if (this.isImg(id)) {
             return this.appendImage(doc, file).then(() => {
-                output.log(`${index + 1} 处理 ${file.file.name} 完成`);
-                this.currentIndex++;
-                this.appendFile(this.currentIndex, doc);
+                this.currentFileIndex++;
+                this.appendFile(this.currentFileIndex, doc);
+            });
+        } else if (this.isPdf(id)) {
+            return this.appendPdf(doc, file).then(() => {
+                this.currentFileIndex++;
+                this.appendFile(this.currentFileIndex, doc);
             });
         }
     },
-    appendImage(doc, file) {
+    appendImage(doc, item) {
         return new Promise((resolve, reject) => {
             var img = new Image();
             img.onload = () => {
@@ -213,17 +229,74 @@ var app = PetiteVue.createApp({
                     var ctx = canvas.getContext("2d");
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 }
-                if (this.currentIndex !== 0) {
+                if (this.currentPageIndex !== 0) {
                     doc.addPage();
                 }
                 doc.addImage(canvas, "JPEG", 0, 0, width, height);
                 // doc.addImage(canvas, "JPEG", 0, 0, width, height, "", "SLOW");
+                this.currentPageIndex++;
+                output.log(`【${item.file.name}】处理完成`);
                 resolve();
             };
-            img.src = file.url;
+            img.src = item.url;
         });
     },
-    appendPdfFile(doc, file) {},
+    appendPdf(doc, item) {
+        console.log(item);
+        const file = item.file;
+        const that = this;
+        function renderPage(page, index) {
+            return new Promise((resolve, reject) => {
+                output.log(`　　　　正在处理【${file.name}】第 ${index} 页`);
+                const viewport = page.getViewport({ scale: 2 });
+                const canvas = document.createElement("canvas");
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                const ctx = canvas.getContext("2d");
+
+                page.render({
+                    viewport: viewport,
+                    canvasContext: ctx,
+                }).promise.then(function () {
+                    // document.body.appendChild(canvas);
+                    const { width, height } = that.getImgSize(canvas);
+                    if (that.currentPageIndex !== 0) {
+                        doc.addPage();
+                    }
+                    doc.addImage(canvas, "JPEG", 0, 0, width, height);
+                    that.currentPageIndex++;
+                    output.log(
+                        `　　　　【${file.name}】第 ${index} 页 处理完成`
+                    );
+                    resolve();
+                });
+            });
+        }
+        return new Promise((resolve, reject) => {
+            const loadingTask = pdfjsLib.getDocument({
+                url: URL.createObjectURL(file),
+            });
+            loadingTask.promise.then((pdf) => {
+                var pageCount = pdf._pdfInfo.numPages;
+                output.log(`【${file.name}】共有 ${pageCount} 页`);
+
+                let current = 0;
+                function go(index) {
+                    if (index >= pageCount) {
+                        output.log(`【${item.file.name}】处理完成`);
+                        resolve();
+                        return;
+                    }
+                    pdf.getPage(index + 1).then(function (page) {
+                        renderPage(page, index + 1).then(() => {
+                            go(++index);
+                        });
+                    });
+                }
+                go(current);
+            });
+        });
+    },
     getImgSize(img) {
         const width = img.width;
         const height = img.height;
@@ -254,6 +327,7 @@ var app = PetiteVue.createApp({
         });
         store.index = 0;
         store.fileMap = {};
-        this.currentIndex = 0;
+        this.currentFileIndex = 0;
+        this.currentPageIndex = 0;
     },
 }).mount();
