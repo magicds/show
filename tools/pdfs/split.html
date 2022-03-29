@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF分割工具</title>
+    <style>
+        #result {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+        }
+
+        #output {
+            border: 1px solid #ddd;
+            height: 200px;
+            overflow: auto;
+            padding-left: 4px;
+        }
+
+        article {
+            width: 25%;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+
+        article h2 {
+            margin: 0;
+            text-align: center;
+        }
+
+        article canvas {
+            width: 100%;
+        }
+
+        p {
+            margin: 0;
+            margin-bottom: 5px;
+        }
+    </style>
+    <style>
+        .drop-area {
+            height: 80px;
+            line-height: 80px;
+            border: 4px dashed #ccc;
+            color: #999;
+            background-color: #f1f1f1;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            margin: 10 auto;
+        }
+
+        .drop-area.drag-over {
+            border-color: #3280fc;
+            background-color: #ebf2f9;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <canvas id="canvas"></canvas> -->
+    <div class="drop-area" id="drop-area">
+        PDF分割工具，请把PDF文件拖拽至此
+    </div>
+    <div id="output"></div>
+    <div id="result">
+
+    </div>
+
+    <script src="./js/pdfjs/build/pdf.js"></script>
+    <script src="./js/jspdf.umd.js"></script>
+    <script src="./js/split.js?v=1.2"></script>
+</body>
+
+</html>
