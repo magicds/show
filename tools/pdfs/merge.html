@@ -6,7 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF生成工具</title>
+    <script>
+        var _czc = window._czc || [];
+    </script>
     <style>
+        body {
+            margin-top: 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+        }
+
+        nav-item {
+            padding: 4px 10px;
+        }
+
         #result {
             display: flex;
             flex-wrap: wrap;
@@ -24,6 +40,7 @@
             font-size: 14px;
             border-radius: 4px;
         }
+
         #output:empty:before {
             content: '日志输出';
             color: #999;
@@ -171,9 +188,13 @@
 </head>
 
 <body>
+    <nav>
+        <nav-item><a href="./merge.html">合并</a></nav-item>
+        <nav-item><a href="./split.html">拆分</a></nav-item>
+    </nav>
     <div id="app" v-scope>
         <div class="drop-area" id="drop-area">
-            请把文件拖拽至此
+            图片、PDF合并工具，请把文件拖拽至此
 
             <button class="btn-reset" @click="reset">
                 <svg>
@@ -213,7 +234,7 @@
     </div>
     <div id="output"></div>
 
-    <svg hidden>
+    <svg hidden style="display:none">
         <symbol id="icon-pdf" viewBox="0 0 1024 1024">
             <path d="M704 0H192c-35.328 0-64 28.672-64 64v320h576c35.328 0 64 28.672 64 64v415.744c0 35.328-28.672 64-64 64H128v31.744c0 35.328 28.672 64 64 64h768c35.328 0 64-28.672 64-64v-640L704 0z" fill="#EAEAEA" p-id="1467"></path>
             <path d="M704 0v256c0 35.328 28.672 64 64 64h256L704 0z" fill="#434854" p-id="1468"></path>
@@ -232,7 +253,10 @@
     <script src="./js/jspdf.umd.js"></script>
     <script src="./js/Sortable.min.js"></script>
     <script src="./js/petite-vue.v0.4.1.iife.js"></script>
-    <script src="./js/merge.js?v=1.0"></script>
+    <script src="./js/merge.js?v=1.1"></script>
+    <div hidden style="display: none">
+        <script type="text/javascript" src="https://v1.cnzz.com/z_stat.php?id=1281047190&web_id=1281047190" async></script>
+    </div>
 
 </body>
 

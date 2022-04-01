@@ -76,6 +76,10 @@ function initDrop() {
         });
         console.log(idArr);
         store.files.push(...idArr);
+
+        const fileName = store.fileMap[store.files[0]].file.name;
+
+        store.outputName = `${fileName}等${store.files.length}个文件合并的.pdf`;
     }
     dropArea.addEventListener(
         "drop",
@@ -108,9 +112,11 @@ var sortable = new Sortable(document.querySelector("#list"), {
     onUpdate: function (/**Event*/ evt) {
         // same properties as onEnd
         console.log(evt);
-        var arr = sortable.toArray();
+        const arr = sortable.toArray();
         console.log(arr);
         store.files = arr;
+        const fileName = store.fileMap[store.files[0]].file.name;
+        store.outputName = `${fileName}等${arr.length}个文件合并的.pdf`;
     },
 });
 
@@ -125,7 +131,7 @@ var store = PetiteVue.reactive({
         A4: "A4",
         origin: "原始尺寸",
     },
-    outputName: "合并pdf",
+    outputName: "",
 });
 
 var app = PetiteVue.createApp({
@@ -185,7 +191,7 @@ var app = PetiteVue.createApp({
 
     appendFile(index, doc) {
         if (index >= store.files.length) {
-            doc.save("1.pdf");
+            doc.save(store.outputName);
             return;
         }
         var id = store.files[index];
@@ -211,6 +217,7 @@ var app = PetiteVue.createApp({
         }
     },
     appendImage(doc, item) {
+        (window._czc || []).push(["_trackEvent", "PDFmerge", "page"]);
         return new Promise((resolve, reject) => {
             var img = new Image();
             img.onload = () => {
@@ -242,11 +249,11 @@ var app = PetiteVue.createApp({
         });
     },
     appendPdf(doc, item) {
-        console.log(item);
         const file = item.file;
         const that = this;
         function renderPage(page, index) {
             return new Promise((resolve, reject) => {
+                (window._czc || []).push(["_trackEvent", "PDFmerge", "page"]);
                 output.log(`　　　　正在处理【${file.name}】第 ${index} 页`);
                 const viewport = page.getViewport({ scale: 2 });
                 const canvas = document.createElement("canvas");
@@ -329,5 +336,6 @@ var app = PetiteVue.createApp({
         store.fileMap = {};
         this.currentFileIndex = 0;
         this.currentPageIndex = 0;
+        output.clear();
     },
 }).mount();
