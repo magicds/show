@@ -217,7 +217,7 @@ var app = PetiteVue.createApp({
         }
     },
     appendImage(doc, item) {
-        (window._czc || []).push(["_trackEvent", "PDFmerge", "page"]);
+        // (window._czc || []).push(["_trackEvent", "PDFmerge", "page"]);
         return new Promise((resolve, reject) => {
             var img = new Image();
             img.onload = () => {
@@ -253,7 +253,7 @@ var app = PetiteVue.createApp({
         const that = this;
         function renderPage(page, index) {
             return new Promise((resolve, reject) => {
-                (window._czc || []).push(["_trackEvent", "PDFmerge", "page"]);
+                // (window._czc || []).push(["_trackEvent", "PDFmerge", "page"]);
                 output.log(`　　　　正在处理【${file.name}】第 ${index} 页`);
                 const viewport = page.getViewport({ scale: 2 });
                 const canvas = document.createElement("canvas");

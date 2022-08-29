@@ -173,6 +173,4 @@ function renderPage(page, index, fileName) {
             output.log(`第 ${index} 页分割完成`);
         }, 300);
     });
-
-    (window._czc || []).push(["_trackEvent", "PDFsplit", "page"]);
 }
