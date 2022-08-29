@@ -93,7 +93,21 @@ function splitPdf(filePath, fileName = "") {
     output.clear();
     result.innerHTML = "";
 
-    var loadingTask = pdfjsLib.getDocument({ url: filePath });
+    var loadingTask = pdfjsLib.getDocument({
+        url: filePath,
+        cMapUrl: "../web/cmaps/", // 路径是以pdfjs为基准的
+        standardFontDataUrl: "../web/standard_fonts/",
+        cMapPacked: true,
+        useSystemFonts: true,
+    });
+
+    var hasAlerted = false;
+    loadingTask.onUnsupportedFeature = (e) => {
+        if (!hasAlerted) {
+            window.alert(`出现 ${e} 错误，PDF渲染可能不正常`);
+            hasAlerted = true;
+        }
+    };
     output.log(`正在处理 【${fileName}】`);
 
     loadingTask.promise.then(function (pdf) {
@@ -137,6 +151,7 @@ function renderPage(page, index, fileName) {
     var renderTask = page.render({
         viewport: viewport,
         canvasContext: ctx,
+        stopAtErrors: true,
     });
 
     result.appendChild(div);

@@ -282,7 +282,18 @@ var app = PetiteVue.createApp({
         return new Promise((resolve, reject) => {
             const loadingTask = pdfjsLib.getDocument({
                 url: URL.createObjectURL(file),
+                cMapUrl: "../web/cmaps/", // 路径是以pdfjs为基准的
+                standardFontDataUrl: "../web/standard_fonts/",
+                cMapPacked: true,
+                useSystemFonts: true,
             });
+            let hasAlerted = false;
+            loadingTask.onUnsupportedFeature = (e) => {
+                if (!hasAlerted) {
+                    window.alert(`出现 ${e} 错误，PDF渲染可能不正常`);
+                    hasAlerted = true;
+                }
+            };
             loadingTask.promise.then((pdf) => {
                 var pageCount = pdf._pdfInfo.numPages;
                 output.log(`【${file.name}】共有 ${pageCount} 页`);
