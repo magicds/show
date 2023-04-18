@@ -6,7 +6,7 @@
 // 文件转化为dataUrl
 function readFileAsDataURL(file, callback) {
     var a = new FileReader();
-    a.onload = function(e) {
+    a.onload = function (e) {
         callback && callback(e.target.result, file);
     };
     a.readAsDataURL(file);
@@ -19,7 +19,7 @@ function processFiles(files, callback) {
 }
 // 复制到粘贴板
 function copyToClipboard() {
-    document.execCommand("Copy");
+    document.execCommand('Copy');
 }
 
 // 将dataUrl添加到页面
@@ -27,39 +27,47 @@ var resultList = document.querySelector('#resultList');
 
 function addToPage(dataUrl, file) {
     var html = '<span>' + file.name + '</span><button>复制</button><textarea class="result-text" cols="30" rows="10"></textarea>';
-    
+
     var result = document.createElement('div');
-    result.className = "result";
+    result.className = 'result';
     result.innerHTML = html;
     result.childNodes[2].value = dataUrl;
-    result.childNodes[1].addEventListener('click', function(e) {
-        var textarea = e.target.nextSibling;
-        textarea.select();
-        copyToClipboard();
-    }, false);
+    result.childNodes[1].addEventListener(
+        'click',
+        function (e) {
+            var textarea = e.target.nextSibling;
+            textarea.select();
+            copyToClipboard();
+        },
+        false
+    );
     resultList.appendChild(result);
 }
 var dropArea = document.querySelector('#drop-area');
 
 // 事件函数
-var handleDragEnter = function(e) {
+var handleDragEnter = function (e) {
     this.classList.add('drag-over');
+    dropArea.classList.add('in-files');
 };
 
-var handleDragOver = function(e) {
+var handleDragOver = function (e) {
     e.stopPropagation();
     e.preventDefault();
 
     e.dataTransfer.dropEffect = 'copy';
+    dropArea.classList.add('in-files');
 };
 
-var handleDragLeave = function(e) {
+var handleDragLeave = function (e) {
     this.classList.remove('drag-over');
+    dropArea.classList.remove('in-files');
 };
 
-var handleDrop = function(e) {
+var handleDrop = function (e) {
     e.stopPropagation();
     e.preventDefault();
+    dropArea.classList.remove('in-files');
 
     var files = e.dataTransfer.files;
 
@@ -76,3 +84,7 @@ dropArea.addEventListener('dragenter', handleDragEnter, false);
 dropArea.addEventListener('dragleave', handleDragLeave, false);
 dropArea.addEventListener('dragover', handleDragOver, false);
 dropArea.addEventListener('drop', handleDrop, false);
+
+document.documentElement.addEventListener('dragover', function () {
+    dropArea.classList.add('in-files');
+});
