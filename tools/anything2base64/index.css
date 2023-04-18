@@ -1,6 +1,5 @@
 /**
  * 图片转base64
- * author:陈东顺
  * date:2016-09-28
  */
 .container {
@@ -29,6 +28,9 @@
 	text-align: right;
 	width:100%;
 	margin:10px 0;
+}
+.result span {
+	float: left;
 }
 .result button {
 	display: inline-block;

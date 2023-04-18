@@ -8,7 +8,7 @@
 function readFileAsDataURL(file, callback) {
     var a = new FileReader();
     a.onload = function(e) {
-        callback && callback(e.target.result);
+        callback && callback(e.target.result, file);
     };
     a.readAsDataURL(file);
 }
@@ -26,13 +26,14 @@ function copyToClipboard() {
 // 将dataUrl添加到页面
 var resultList = document.querySelector('#resultList');
 
-function addToPage(dataUrl) {
-    var html = '<button>复制</button><textarea class="result-text" cols="30" rows="10"></textarea>';
+function addToPage(dataUrl, file) {
+    var html = '<span>' + file.name + '</span><button>复制</button><textarea class="result-text" cols="30" rows="10"></textarea>';
+    
     var result = document.createElement('div');
     result.className = "result";
     result.innerHTML = html;
-    result.childNodes[1].value = dataUrl;
-    result.childNodes[0].addEventListener('click', function(e) {
+    result.childNodes[2].value = dataUrl;
+    result.childNodes[1].addEventListener('click', function(e) {
         var textarea = e.target.nextSibling;
         textarea.select();
         copyToClipboard();
