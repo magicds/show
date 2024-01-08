@@ -31,4 +31,5 @@
 
 - [一个图表过渡动画，用于双屏展示](https://cdswyda.github.io/show/demo/chartTransition/)
 - [一个蛇形步骤图](https://cdswyda.github.io/show/demo/flow/)
+- [年/季度/月/日 进度](https://cdswyda.github.io/show/demo/time-progress/)
   <!-- [![](./demo/flow/show2.gif)](./demo/flow/) -->

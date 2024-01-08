@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日进度</title>
+    <style>
+        .time-progress {
+            position: relative;
+            text-align: center;
+            background-color: rgba(255, 255, 255, .3);
+
+        }
+
+        .time-progress:before {
+            content: "";
+            height: 4px;
+            display: block;
+            width: var(--progress);
+            background: #136ac6;
+        }
+
+        .time-progress:after {
+            /* content: attr(data-time-progress); */
+            content: attr(progress);
+        }
+    </style>
+    <style>
+        html,
+        body {
+            font-size: 13px;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            text-shadow: 0 0 2px rgba(255, 255, 255, .9);
+        }
+
+        #today {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        #today:before {
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+        }
+
+        .random-btn {
+            position: absolute;
+            top: 5px;
+            right: 0px;
+            opacity: 0;
+        }
+
+        .random-btn:hover {
+            opacity: 1;
+        }
+    </style>
+    <style>
+        #box {
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, .8);
+            backdrop-filter: blur(4px);
+            width: 300px;
+            color: #333;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, .15);
+        }
+
+        .progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .progress:first-child {
+            border-top: none;
+        }
+
+        .progress-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .progress-icon svg .circle1 {
+            stroke-dasharray: var(--stroke-dasharray1);
+        }
+
+        .progress-icon svg .circle2 {
+            stroke-dasharray: var(--stroke-dasharray2);
+        }
+
+        .progress-icon {
+            position: relative;
+            width: 40px;
+            align-self: start;
+            margin-right: 5px;
+        }
+
+        .progress-title {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .progress-title .title {
+            font-size: 16px;
+        }
+
+        .progress-title .sub {
+            font-size: 13px;
+        }
+
+        .progress-right {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .progress-value {
+            font-size: 20px;
+            font-weight: bold;
+            font-family: 'Cascadia Code', 'Fira Code', monospace;
+        }
+    </style>
+</head>
+
+<body style="background-image:url(./th.webp);background-size: cover;">
+    <button class="random-btn" onclick="randomBg()">random</button>
+    <div id="work"></div>
+    <div id="today"></div>
+
+    <div id="box">
+
+    </div>
+    <template id="tpl">
+        <span class="progress-icon">
+            <svg>
+                <defs>
+                    <linearGradient x1="1" y1="0" x2="0" y2="0" id="gradient1">
+                        <stop offset="0%" stop-color="#e52c5c"></stop>
+                        <stop offset="100%" stop-color="#ab5aea"></stop>
+                    </linearGradient>
+                    <linearGradient x1="1" y1="0" x2="0" y2="0" id="gradient2">
+                        <stop offset="0%" stop-color="#4352f3"></stop>
+                        <stop offset="100%" stop-color="#ab5aea"></stop>
+                    </linearGradient>
+                </defs>
+                <g transform="matrix(0,-1,1,0,0,40)">
+                    <circle cx="20" cy="20" r="15" stroke-width="5" stroke="#D1D3D7" fill="none"></circle>
+                    <circle class="circle1" cx="20" cy="20" r="15" stroke-width="5" stroke="url('#gradient1')" fill="none" stroke-linecap="round" stroke-dasharray="80 95"></circle>
+                    <circle class="circle2" cx="20" cy="20" r="15" stroke-width="5" stroke="url('#gradient2')" fill="none" stroke-linecap="round" stroke-dasharray="40 95"></circle>
+                </g>
+            </svg>
+        </span>
+        <span class="progress-title">
+            <span class="title">${title}</span>
+            <span class="sub">按${unitText} ${current} / ${total} 已过去</span>
+        </span>
+        <span class="progress-right">
+            <span class="progress-value">${progress}</span>
+            <span>%</span>
+        </span>
+    </template>
+    <div style="--stroke-dasharray: 40;display: none;">
+        <svg>
+            <defs>
+                <linearGradient x1="1" y1="0" x2="0" y2="0" id="gradient1">
+                    <stop offset="0%" stop-color="#e52c5c"></stop>
+                    <stop offset="100%" stop-color="#ab5aea"></stop>
+                </linearGradient>
+                <linearGradient x1="1" y1="0" x2="0" y2="0" id="gradient2">
+                    <stop offset="0%" stop-color="#4352f3"></stop>
+                    <stop offset="100%" stop-color="#ab5aea"></stop>
+                </linearGradient>
+            </defs>
+            <g transform="matrix(0,-1,1,0,0,40)">
+                <circle cx="20" cy="20" r="15" stroke-width="5" stroke="#D1D3D7" fill="none"></circle>
+                <!-- 始终更新 -->
+                <circle class="circle" cx="20" cy="20" r="15" stroke-width="5" stroke-linecap="round" stroke="url('#gradient1')" fill="none" stroke-dasharray="80 95"></circle>
+                <!-- 小于50%更新 -->
+                <circle class="circle" cx="20" cy="20" r="15" stroke-width="5" stroke-linecap="round" stroke="url('#gradient2')" fill="none" stroke-dasharray="40 95"></circle>
+
+            </g>
+        </svg>
+    </div>
+    <script>
+        const TPL = document.querySelector('#tpl').innerHTML;
+        const TOTAL_GIRTH = Math.PI * 2 * 15 >>> 0;
+
+        function getMonthDays(isLeapYear) {
+            const arr = [
+                31, // Jan
+                28, // Feb
+                31, // Mar
+                30, // Apr
+                31, // May
+                30, // Jun
+                31, // Jul
+                31, // Aug
+                30, // Sep
+                31, // Oct
+                30, // Nov
+                31 // Dec
+            ];
+            if (isLeapYear) {
+                arr[1] = 29;
+            }
+            return arr;
+        }
+
+        class BaseProgress {
+            constructor () {
+                this.timer = null;
+                this.updateInterval = null;
+                this.tpl = TPL;
+            }
+            init() {
+                this.el.classList.add('progress');
+                this.render();
+                if (this.updateInterval) {
+                    this.timer = setInterval(() => {
+                        this.render();
+                    }, this.updateInterval || 1000);
+                }
+            }
+            update() {
+                throw new Error("Update is not supported")
+            }
+            render() {
+                this.update();
+                this.el.innerHTML = this.tpl.replace('${title}', this.title)
+                    .replace('${unitText}', this.unitText)
+                    .replace('${current}', this.currentText || this.current)
+                    .replace('${total}', this.totalText || this.total)
+                    .replace('${progress}', this.progress);
+
+                // 太接近100 的时候防止看起来是100
+                const p1 = this.progress === 100 ? TOTAL_GIRTH + 1 : Math.min(this.progress, 92) / 100 * TOTAL_GIRTH >>> 0;
+                const strokeDasharray = `${p1} ${TOTAL_GIRTH + 1}`;
+                this.el.style.setProperty('--stroke-dasharray1', strokeDasharray);
+                if (this.progress <= 50) {
+                    this.el.style.setProperty('--stroke-dasharray2', strokeDasharray);
+                } else {
+                    this.el.style.setProperty('--stroke-dasharray2', `${Math.ceil(TOTAL_GIRTH / 2)} ${TOTAL_GIRTH + 1}`);
+                }
+            }
+        }
+
+        // function TimeProgress(el, start, end) {
+        //     this.el = document.querySelector(el);
+        //     this.el.classList.add('time-progress')
+        //     var startDate = new Date();
+        //     startDate.setHours(...start);
+        //     var endDate = new Date();
+        //     endDate.setHours(...end);
+        //     this.startDate = startDate;
+        //     this.endDate = endDate;
+        //     this.total = (+this.endDate - +this.startDate)
+
+        //     this.timer = null
+        //     this.initEvent();
+        // }
+
+        class YearProgress extends BaseProgress {
+            constructor () {
+                super();
+                this.el = document.createElement('div');
+                this.el.classList.add('year-progress');
+                this.updateInterval = 1000 * 60 * 60;
+                this.unitText = '年';
+                this.init();
+                document.getElementById('box').appendChild(this.el);
+            }
+            update() {
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const day = date.getDate();
+                const monthDays = getMonthDays();
+
+                const isLeapYear = (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0);
+                if (isLeapYear) {
+                    monthDays[1] = 29;
+                }
+
+                const total = isLeapYear ? 366 : 365;
+                let currentDays = day;
+                for (var i = 0; i < month - 1; i++) {
+                    currentDays += monthDays[i];
+                }
+
+                this.total = total;
+                this.current = currentDays;
+                this.progress = currentDays / total * 100 >>> 0;
+
+                this.title = `${year} 年进度`;
+                console.log('年', currentDays, total, this.progress);
+            }
+        }
+
+        class QuarterProgress extends BaseProgress {
+            constructor (el) {
+                super();
+                this.el = document.createElement('div');
+                this.el.classList.add('quarter-progress');
+
+                this.updateInterval = 1000 * 60 * 60;
+                this.unitText = '季度'
+
+                this.init();
+                document.getElementById('box').appendChild(this.el);
+            }
+            update() {
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const day = date.getDate();
+                const monthDays = getMonthDays();
+                const quarterDays = [
+                    90, // 1
+                    91, // 2
+                    92, // 3
+                    92 // 4
+                ];
+
+                const isLeapYear = (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0);
+                if (isLeapYear) {
+                    quarterDays[0] = 91;
+                }
+                const quarter = Math.ceil((month + 1) / 3);
+                this.quarter = quarter;
+                const total = quarterDays[quarter - 1];
+                // 计算本季度已经过去了多少天
+                let currentDays = day;
+                for (var i = (quarter - 1) * 3; i < month - 1; i++) {
+                    currentDays += monthDays[i];
+                }
+                this.current = currentDays;
+                this.total = total;
+                this.progress = currentDays / total * 100 >>> 0;
+                this.title = this.quarter + '季度进度'
+
+                console.log('季度', currentDays, total, this.progress);
+
+            }
+        }
+        class MonthProgress extends BaseProgress {
+            constructor (el) {
+                super();
+                this.el = document.createElement('div');
+                this.el.classList.add('month-progress');
+                this.updateInterval = 1000 * 60 * 60;
+
+                this.unitText = '月'
+                this.init();
+                document.getElementById('box').appendChild(this.el);
+
+            }
+            update() {
+
+                const date = new Date();
+                const month = date.getMonth();
+                const day = date.getDate();
+
+
+                this.total = getMonthDays()[month];
+                if (month == 2) {
+                    const year = date.getFullYear();
+                    if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                        this.total = 29;
+                    }
+                }
+                this.current = day;
+                this.progress = day / this.total * 100 >>> 0;
+
+                this.title = (month + 1) + '月进度';
+                console.log('月', day, this.total, this.progress);
+            }
+
+        }
+        class DayProgress extends BaseProgress {
+            constructor (el) {
+                super();
+                this.el = document.createElement('div');
+                this.el.classList.add('day-progress');
+                this.updateInterval = 1000 * 30;
+
+                this.total = 24 * 60 * 60 * 1000;
+                this.totalText = 24;
+                this.unitText = '日'
+                this.init();
+                document.getElementById('box').appendChild(this.el);
+
+            }
+            update() {
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const second = date.getSeconds();
+
+                this.current = hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000;
+                this.currentText = (hour + (minute / 60)).toFixed(1);
+                this.progress = this.current / this.total * 100 >>> 0;
+
+                this.title = '今日进度';
+                console.log('日', this.current, this.total, this.progress);
+            }
+        }
+
+        class DayWorkHorusProgress extends BaseProgress {
+            constructor (el) {
+                super();
+                this.el = document.createElement('div');
+                this.el.classList.add('day-work-horus-progress');
+                this.updateInterval = 1000 * 30;
+                // 8~12 13:30~17:30
+                this.total = 8 * 60 * 60 * 1000;
+                this.totalText = 8;
+                this.half = 4 * 60 * 60 * 1000;
+
+                this.unitText = '日(work)'
+                this.init();
+                document.getElementById('box').appendChild(this.el);
+
+            }
+            update() {
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const second = date.getSeconds();
+
+                // 8~12 13:30~17:30
+                if (hour < 8) {
+                    // 未开始
+                    this.current = 0;
+                } else if (hour <= 12) {
+                    // 上午
+                    this.current = (hour - 8) * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000;
+                } else if (hour <= 13 && minute <= 30) {
+                    // 午休
+                    this.current = this.half;
+                } else if (hour >= 17 && minute >= 30) {
+                    // 下班
+                    this.current = this.total;
+                } else {
+                    // 下午
+                    this.current = (hour - 13.5) * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + this.half;
+                }
+                this.currentText = (this.current / (60 * 60 * 1000)).toFixed(1);
+                this.progress = this.current / this.total * 100 >>> 0;
+
+                this.title = '今日进度';
+                console.log('日工作时间', this.current, this.total, this.progress);
+            }
+        }
+
+        new YearProgress();
+        new QuarterProgress();
+        new MonthProgress();
+        new DayProgress();
+        new DayWorkHorusProgress();
+
+
+        class TimeProgressBar {
+            constructor (el, start, end) {
+                this.el = document.querySelector(el);
+                this.el.classList.add('time-progress')
+                var startDate = new Date();
+                startDate.setHours(...start);
+                var endDate = new Date();
+                endDate.setHours(...end);
+                this.startDate = startDate;
+                this.endDate = endDate;
+                this.total = (+this.endDate - +this.startDate)
+
+                this.timer = null
+
+                this.update();
+                this.timer = setInterval(() => {
+                    this.update();
+                }, 1000 * 30);
+            }
+            update() {
+                var date = new Date();
+                var d = date.getDate();
+                if (d != this.startDate.getDate()) {
+                    this.startDate.setDate(d);
+                    this.endDate.setDate(d);
+                }
+
+                var p = (+date - +this.startDate) / this.total;
+                if (p < 0) p = 0;
+                if (p > 1) p = 1;
+                p = parseFloat((p * 100).toFixed(2));
+
+                this.el.style.setProperty('--progress', p + '%');
+                this.el.dataset.timeProgress = p + '%';
+                this.el.dataset.current = +date - +this.startDate;
+            }
+        }
+
+
+        new TimeProgressBar('#work', [8], [17, 30]);
+        new TimeProgressBar('#today', [0], [23, 59]);
+
+        function randomBg() {
+            // https://cn.bing.com/th?id=OHR.SleepingFox_ZH-CN2622967726_1920x1080.webp
+
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundImage = 'url(https://source.unsplash.com/featured/?nature-background)';
+        }
+        function replaceToUnsplash() {
+            var img = new Image();
+
+            img.onload = function () {
+                document.body.style.backgroundImage = 'url(https://source.unsplash.com/featured/?nature-background)';
+            }
+            img.src = 'https://source.unsplash.com/featured/?nature-background';
+            img.onerror = function () {
+                console.warn('unsplash.com is not available');
+                randomBg = function () { };
+            };
+        }
+        replaceToUnsplash();
+        // 允许#box拖拽移动位置
+        (function () {
+            var box = document.getElementById('box');
+            var drag = false;
+            var x, y;
+            box.onmousedown = function (e) {
+                drag = true;
+                offset_x = e.pageX - box.offsetLeft;
+                offset_y = e.pageY - box.offsetTop;
+                const rect = box.getBoundingClientRect();
+                const viewRect = document.body.getBoundingClientRect();
+                const max_x = viewRect.width - rect.width;
+                const max_y = viewRect.height - rect.height;
+
+                function move(e) {
+                    if (drag) {
+                        // 限制在可视区域内移动位置并限制在可视区域内
+                        x = e.pageX - offset_x;
+                        y = e.pageY - offset_y;
+                        if (x < 0) {
+                            x = 0
+                        } else if (x > max_x) {
+                            x = max_x
+                        }
+                        if (y < 0) {
+                            y = 0
+                        } else if (y > max_y) {
+                            y = max_y
+                        }
+
+                        box.style.left = x + 'px';
+                        box.style.top = y + 'px';
+                    }
+                }
+
+                function end(e) {
+                    drag = false;
+                    document.removeEventListener('mousemove', move);
+                    document.removeEventListener('mouseup', end);
+
+                    localStorage.setItem('__box-x', x);
+                    localStorage.setItem('__box-y', y);
+                }
+
+                document.addEventListener('mousemove', move);
+                document.addEventListener('mouseup', end);
+            }
+
+            function limitPosition(x, y) {
+                const rect = box.getBoundingClientRect();
+                const viewRect = document.body.getBoundingClientRect();
+                const max_x = viewRect.width - rect.width;
+                const max_y = viewRect.height - rect.height;
+                if (x < 0) {
+                    x = 0
+                } else if (x > max_x) {
+                    x = max_x
+                }
+                if (y < 0) {
+                    y = 0
+                } else if (y > max_y) {
+                    y = max_y
+                }
+                return [x, y]
+            }
+
+            window.addEventListener('resize', (function () {
+                var timer = null;
+                return function () {
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        const rect = box.getBoundingClientRect();
+                        const [x, y] = limitPosition(rect.left, rect.top)
+                        box.style.left = x + 'px';
+                        box.style.top = y + 'px';
+                    }, 100);
+                }
+            })());
+
+            function restorePosition() {
+                var x = localStorage.getItem('__box-x');
+                var y = localStorage.getItem('__box-y');
+                if (!x || !y) {
+                    return;
+                }
+                x = parseInt(x);
+                y = parseInt(y);
+                const pos = limitPosition(x, y)
+
+                box.style.left = pos[0] + 'px';
+                box.style.top = pos[1] + 'px';
+
+            }
+            restorePosition();
+
+        })();
+    </script>
+
+</body>
+
+</html>
