@@ -452,7 +452,7 @@
                 } else if (hour <= 13 && minute <= 30) {
                     // 午休
                     this.current = this.half;
-                } else if (hour >= 17 && minute >= 30) {
+                } else if ((hour >= 17 && minute >= 30) || hour >= 18) {
                     // 下班
                     this.current = this.total;
                 } else {
